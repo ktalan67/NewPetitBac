@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ResultatManche{% endblock %}
+
+{% block body %}
+    <h1>Create new ResultatManche</h1>
+
+    {{ include('resultat_manche/_form.html.twig') }}
+
+    <a href="{{ path('resultat_manche_index') }}">back to list</a>
+{% endblock %}

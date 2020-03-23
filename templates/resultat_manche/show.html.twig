@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ResultatManche{% endblock %}
+
+{% block body %}
+    <h1>ResultatManche</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ resultat_manche.id }}</td>
+            </tr>
+            <tr>
+                <th>Score</th>
+                <td>{{ resultat_manche.score }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('resultat_manche_index') }}">back to list</a>
+
+    <a href="{{ path('resultat_manche_edit', {'id': resultat_manche.id}) }}">edit</a>
+
+    {{ include('resultat_manche/_delete_form.html.twig') }}
+{% endblock %}

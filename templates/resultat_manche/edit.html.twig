@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ResultatManche{% endblock %}
+
+{% block body %}
+    <h1>Edit ResultatManche</h1>
+
+    {{ include('resultat_manche/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('resultat_manche_index') }}">back to list</a>
+
+    {{ include('resultat_manche/_delete_form.html.twig') }}
+{% endblock %}

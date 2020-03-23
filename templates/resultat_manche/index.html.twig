@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ResultatManche index{% endblock %}
+
+{% block body %}
+    <h1>ResultatManche index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Score</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for resultat_manche in resultat_manches %}
+            <tr>
+                <td>{{ resultat_manche.id }}</td>
+                <td>{{ resultat_manche.score }}</td>
+                <td>
+                    <a href="{{ path('resultat_manche_show', {'id': resultat_manche.id}) }}">show</a>
+                    <a href="{{ path('resultat_manche_edit', {'id': resultat_manche.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('resultat_manche_new') }}">Create new</a>
+{% endblock %}

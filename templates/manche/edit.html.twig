@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Manche{% endblock %}
+
+{% block body %}
+    <h1>Edit Manche</h1>
+
+    {{ include('manche/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('manche_index') }}">back to list</a>
+
+    {{ include('manche/_delete_form.html.twig') }}
+{% endblock %}
