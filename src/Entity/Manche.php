@@ -53,12 +53,18 @@ class Manche
      */
     private $resultatManches;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Theme", inversedBy="manches")
+     */
+    private $theme;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->questions = new ArrayCollection();
-        $this->resultatManches = new ArrayCollection();
+        //$this->resultatManches = new ArrayCollection();
+        $this->theme = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,6 +211,32 @@ class Manche
         if ($this->resultatManches->contains($resultatManch)) {
             $this->resultatManches->removeElement($resultatManch);
             $resultatManch->removeManche($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Theme[]
+     */
+    public function getTheme(): Collection
+    {
+        return $this->theme;
+    }
+
+    public function addTheme(Theme $theme): self
+    {
+        if (!$this->theme->contains($theme)) {
+            $this->theme[] = $theme;
+        }
+
+        return $this;
+    }
+
+    public function removeTheme(Theme $theme): self
+    {
+        if ($this->theme->contains($theme)) {
+            $this->theme->removeElement($theme);
         }
 
         return $this;

@@ -28,9 +28,15 @@ class Theme
      */
     private $questions;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Manche", mappedBy="theme")
+     */
+    private $manches;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->manches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,6 +79,34 @@ class Theme
         if ($this->questions->contains($question)) {
             $this->questions->removeElement($question);
             $question->removeTheme($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Manche[]
+     */
+    public function getManches(): Collection
+    {
+        return $this->manches;
+    }
+
+    public function addManch(Manche $manch): self
+    {
+        if (!$this->manches->contains($manch)) {
+            $this->manches[] = $manch;
+            $manch->addTheme($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManch(Manche $manch): self
+    {
+        if ($this->manches->contains($manch)) {
+            $this->manches->removeElement($manch);
+            $manch->removeTheme($this);
         }
 
         return $this;

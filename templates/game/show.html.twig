@@ -3,14 +3,59 @@
 {% block title %}Game{% endblock %}
 
 {% block body %}
-    <h1>Game</h1>
+    <h1>Game Id : {{ game.id }}</h1>
 
     <table class="table">
+        <thead>
+            <tr>
+                <th>Users</th>
+                <th>Manches</th>
+            </tr>
+        </thead>
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ game.id }}</td>
+                <td>
+                {% for user in game.users %}
+                {{ user.pseudo }}
+                {% endfor %}
+                </td>   
+                <td>
+                {% for manche in game.manches %}
+                {{ manche.nom }}//{{ manche.id }}
+                {% endfor %}
+                </td>
             </tr>
+        </tbody>
+    </table>
+
+
+
+{% for manche in game.manches %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{{ manche.nom }} // {{ manche.id }} //                
+                {% for theme in manche.theme %}
+                {{ theme.nom }}
+                {% endfor %}
+                </th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <td>
+                {% for question in manche.questions %}
+                {{ question.title }} 
+                {% endfor %}
+                {% endfor %}
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <td>
+            
+            </td>
         </tbody>
     </table>
 
