@@ -3,13 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Game;
-use App\Entity\Theme;
-use App\Entity\Manche;
 use App\Form\GameType;
-use App\Form\NewGameType;
-use App\Form\GameThemeType;
-use App\Form\MancheThemeType;
-use App\Form\GameMancheThemeType;
+use App\Form\GameNewType;
 use App\Repository\GameRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,14 +32,15 @@ class GameController extends AbstractController
     public function new(Request $request): Response
     {
         $game = new Game();
-        $form = $this->createForm(GameMancheThemeType::class);
-        $form = $this->createForm(NewGameType::class);
+        $form = $this->createForm(GameNewType::class, $game);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($game);
             $entityManager->flush();
-            return $this->redirectToRoute('game_show', array('id' => $game->getId()));
+
+            return $this->redirectToRoute('game_index');
         }
 
         return $this->render('game/new.html.twig', [
@@ -56,24 +52,12 @@ class GameController extends AbstractController
     /**
      * @Route("/{id}", name="game_show", methods={"GET"})
      */
-    public function show(Game $game, Manche $manche): Response
-    {
-        return $this->render('game/show.html.twig', [
-            'game' => $game,
-            'manche' => $manche,
-        ]);
-    }
-
-    /**
-     * @Route("/newgame/{id}", name="game_show", methods={"GET"})
-     */
-    public function newGameShow(Game $game): Response
+    public function show(Game $game): Response
     {
         return $this->render('game/show.html.twig', [
             'game' => $game,
         ]);
     }
-
 
     /**
      * @Route("/{id}/edit", name="game_edit", methods={"GET","POST"})

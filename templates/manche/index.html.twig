@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
 
-{% block title %}Manche index{% endblock %}
+<title>Manche index</title>
 
 {% block body %}
     <h1>Manche index</h1>
@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Nom</th>
                 <th>Temps</th>
+                <th>Score</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{ manche.id }}</td>
                 <td>{{ manche.nom }}</td>
                 <td>{{ manche.temps }}</td>
+                <td>{{ manche.score }}</td>
                 <td>
                     <a href="{{ path('manche_show', {'id': manche.id}) }}">show</a>
                     <a href="{{ path('manche_edit', {'id': manche.id}) }}">edit</a>
@@ -27,7 +29,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -53,11 +53,17 @@ class User
      */
     private $resultatManches;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Feuille", mappedBy="user")
+     */
+    private $feuille;
+
     public function __construct()
     {
         $this->manches = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->resultatManches = new ArrayCollection();
+        $this->feuille = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,4 +202,36 @@ class User
 
         return $this;
     }
+
+    /**
+     * @return Collection|Feuille[]
+     */
+    public function getFeuille(): Collection
+    {
+        return $this->feuille;
+    }
+
+    public function addFeuille(Feuille $feuille): self
+    {
+        if (!$this->feuille->contains($feuille)) {
+            $this->feuille[] = $feuille;
+            $feuille->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeuille(Feuille $feuille): self
+    {
+        if ($this->feuille->contains($feuille)) {
+            $this->feuille->removeElement($feuille);
+            // set the owning side to null (unless already changed)
+            if ($feuille->getUser() === $this) {
+                $feuille->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

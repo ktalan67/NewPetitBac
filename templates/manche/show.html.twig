@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
 
-{% block title %}Manche{% endblock %}
+<title>Manche</title>
 
 {% block body %}
     <h1>Manche</h1>
@@ -18,6 +18,10 @@
             <tr>
                 <th>Temps</th>
                 <td>{{ manche.temps }}</td>
+            </tr>
+            <tr>
+                <th>Score</th>
+                <td>{{ manche.score }}</td>
             </tr>
         </tbody>
     </table>

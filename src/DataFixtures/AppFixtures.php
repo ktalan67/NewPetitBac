@@ -6,7 +6,9 @@ use App\Entity\Game;
 use App\Entity\User;
 use App\Entity\Theme;
 use App\Entity\Manche;
+use App\Entity\Feuille;
 use App\Entity\Question;
+use App\Entity\UserReponses;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -60,7 +62,33 @@ class AppFixtures extends Fixture
             'Manche Subite!',
         ];
 
-
+        $usersReponses = [
+            'chien',
+            'plombier',
+            'banane',
+            'Batman',
+            'baleine',
+            'Samsung',
+            'Vittel',
+            'Renault',
+            'Mercedes',
+            'Manchester United',
+            'Girafe',
+            'Ours',
+            'Scarabet',
+            'Tomate',
+            'Pomme',
+            'Ananas',
+            'Litchi',
+            'Orange',
+            'Mandarine',
+            'Clémentine',
+            'Fraise',
+            'Myrtille',
+            'Melon',
+            'Citron',
+            'Raisin',
+        ];
 
 
         // Liste des Users
@@ -126,6 +154,33 @@ class AppFixtures extends Fixture
         $game->addManch($manchesList[1]);
         $game->addManch($manchesList[2]);
         $manager->persist($game);
+
+    //Création de deux Feuilles-réponses aléatoires (manche1)
+    //feuille user 0
+        $feuille0 = new Feuille();
+        $feuille0->setReponse1($usersReponses[0]);
+        $feuille0->setReponse2($usersReponses[1]);
+        $feuille0->setReponse3($usersReponses[2]);
+        $feuille0->setReponse4($usersReponses[3]);
+        $feuille0->setReponse5($usersReponses[4]);
+        $feuille0->setReponse6($usersReponses[5]);
+        $feuille0->setReponse7($usersReponses[6]);
+        $feuille0->setUser($usersList[0]);
+        $manager->persist($feuille0);
+    //feuille user 1
+        $feuille1 = new Feuille();
+        $feuille1->setReponse1($usersReponses[7]);
+        $feuille1->setReponse2($usersReponses[8]);
+        $feuille1->setReponse3($usersReponses[9]);
+        $feuille1->setReponse4($usersReponses[10]);
+        $feuille1->setReponse5($usersReponses[11]);
+        $feuille1->setReponse6($usersReponses[12]);
+        $feuille1->setReponse7($usersReponses[13]);
+        $feuille1->setUser($usersList[1]);
+        $manager->persist($feuille1);
+
+
+
         $manager->flush();
     }
 }

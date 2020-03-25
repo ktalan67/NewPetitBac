@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<title>Feuille index</title>
+
+{% block body %}
+    <h1>Feuille index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Reponse_1</th>
+                <th>Reponse_2</th>
+                <th>Reponse_3</th>
+                <th>Reponse_4</th>
+                <th>Reponse_5</th>
+                <th>Reponse_6</th>
+                <th>Reponse_7</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for feuille in feuilles %}
+            <tr>
+                <td>{{ feuille.id }}</td>
+                <td>{{ feuille.reponse1 }}</td>
+                <td>{{ feuille.reponse2 }}</td>
+                <td>{{ feuille.reponse3 }}</td>
+                <td>{{ feuille.reponse4 }}</td>
+                <td>{{ feuille.reponse5 }}</td>
+                <td>{{ feuille.reponse6 }}</td>
+                <td>{{ feuille.reponse7 }}</td>
+                <td>
+                    <a href="{{ path('feuille_show', {'id': feuille.id}) }}">show</a>
+                    <a href="{{ path('feuille_edit', {'id': feuille.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('feuille_new') }}">Create new</a>
+{% endblock %}

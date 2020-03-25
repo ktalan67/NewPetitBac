@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<title>Feuille</title>
+
+{% block body %}
+    <h1>Feuille</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ feuille.id }}</td>
+            </tr>
+            <tr>
+                <th>Reponse_1</th>
+                <td>{{ feuille.reponse1 }}</td>
+            </tr>
+            <tr>
+                <th>Reponse_2</th>
+                <td>{{ feuille.reponse2 }}</td>
+            </tr>
+            <tr>
+                <th>Reponse_3</th>
+                <td>{{ feuille.reponse3 }}</td>
+            </tr>
+            <tr>
+                <th>Reponse_4</th>
+                <td>{{ feuille.reponse4 }}</td>
+            </tr>
+            <tr>
+                <th>Reponse_5</th>
+                <td>{{ feuille.reponse5 }}</td>
+            </tr>
+            <tr>
+                <th>Reponse_6</th>
+                <td>{{ feuille.reponse6 }}</td>
+            </tr>
+            <tr>
+                <th>Reponse_7</th>
+                <td>{{ feuille.reponse7 }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('feuille_index') }}">back to list</a>
+
+    <a href="{{ path('feuille_edit', {'id': feuille.id}) }}">edit</a>
+
+    {{ include('feuille/_delete_form.html.twig') }}
+{% endblock %}

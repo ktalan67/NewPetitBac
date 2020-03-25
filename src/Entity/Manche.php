@@ -58,6 +58,7 @@ class Manche
      */
     private $theme;
 
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -130,34 +131,6 @@ class Manche
     public function setScore(int $score): self
     {
         $this->score = $score;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Game[]
-     */
-    public function getGames(): Collection
-    {
-        return $this->games;
-    }
-
-    public function addGame(Game $game): self
-    {
-        if (!$this->games->contains($game)) {
-            $this->games[] = $game;
-            $game->addManch($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGame(Game $game): self
-    {
-        if ($this->games->contains($game)) {
-            $this->games->removeElement($game);
-            $game->removeManch($this);
-        }
 
         return $this;
     }
@@ -241,4 +214,5 @@ class Manche
 
         return $this;
     }
+
 }

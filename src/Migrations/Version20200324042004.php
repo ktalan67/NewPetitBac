@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200324000425 extends AbstractMigration
+final class Version20200324042004 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -33,6 +33,7 @@ final class Version20200324000425 extends AbstractMigration
         $this->addSql('CREATE TABLE manche_user (manche_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_F2D335D73E37BFAB (manche_id), INDEX IDX_F2D335D7A76ED395 (user_id), PRIMARY KEY(manche_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE manche_question (manche_id INT NOT NULL, question_id INT NOT NULL, INDEX IDX_700F92883E37BFAB (manche_id), INDEX IDX_700F92881E27F6BF (question_id), PRIMARY KEY(manche_id, question_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE manche_theme (manche_id INT NOT NULL, theme_id INT NOT NULL, INDEX IDX_80BD19A83E37BFAB (manche_id), INDEX IDX_80BD19A859027487 (theme_id), PRIMARY KEY(manche_id, theme_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE feuille (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, reponse_1 VARCHAR(255) DEFAULT NULL, reponse_2 VARCHAR(255) DEFAULT NULL, reponse_3 VARCHAR(255) DEFAULT NULL, reponse_4 VARCHAR(255) DEFAULT NULL, reponse_5 VARCHAR(255) DEFAULT NULL, reponse_6 VARCHAR(255) DEFAULT NULL, reponse_7 VARCHAR(255) DEFAULT NULL, INDEX IDX_EF726C46A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE resultat_manche (id INT AUTO_INCREMENT NOT NULL, score INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE resultat_manche_user (resultat_manche_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_424C12E15ED19708 (resultat_manche_id), INDEX IDX_424C12E1A76ED395 (user_id), PRIMARY KEY(resultat_manche_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE resultat_manche_manche (resultat_manche_id INT NOT NULL, manche_id INT NOT NULL, INDEX IDX_5AB99D7C5ED19708 (resultat_manche_id), INDEX IDX_5AB99D7C3E37BFAB (manche_id), PRIMARY KEY(resultat_manche_id, manche_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -48,6 +49,7 @@ final class Version20200324000425 extends AbstractMigration
         $this->addSql('ALTER TABLE manche_question ADD CONSTRAINT FK_700F92881E27F6BF FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE manche_theme ADD CONSTRAINT FK_80BD19A83E37BFAB FOREIGN KEY (manche_id) REFERENCES manche (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE manche_theme ADD CONSTRAINT FK_80BD19A859027487 FOREIGN KEY (theme_id) REFERENCES theme (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE feuille ADD CONSTRAINT FK_EF726C46A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE resultat_manche_user ADD CONSTRAINT FK_424C12E15ED19708 FOREIGN KEY (resultat_manche_id) REFERENCES resultat_manche (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE resultat_manche_user ADD CONSTRAINT FK_424C12E1A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE resultat_manche_manche ADD CONSTRAINT FK_5AB99D7C5ED19708 FOREIGN KEY (resultat_manche_id) REFERENCES resultat_manche (id) ON DELETE CASCADE');
@@ -67,6 +69,7 @@ final class Version20200324000425 extends AbstractMigration
         $this->addSql('ALTER TABLE manche_theme DROP FOREIGN KEY FK_80BD19A859027487');
         $this->addSql('ALTER TABLE game_user DROP FOREIGN KEY FK_6686BA65A76ED395');
         $this->addSql('ALTER TABLE manche_user DROP FOREIGN KEY FK_F2D335D7A76ED395');
+        $this->addSql('ALTER TABLE feuille DROP FOREIGN KEY FK_EF726C46A76ED395');
         $this->addSql('ALTER TABLE resultat_manche_user DROP FOREIGN KEY FK_424C12E1A76ED395');
         $this->addSql('ALTER TABLE game_manche DROP FOREIGN KEY FK_DD5BCF233E37BFAB');
         $this->addSql('ALTER TABLE manche_user DROP FOREIGN KEY FK_F2D335D73E37BFAB');
@@ -86,6 +89,7 @@ final class Version20200324000425 extends AbstractMigration
         $this->addSql('DROP TABLE manche_user');
         $this->addSql('DROP TABLE manche_question');
         $this->addSql('DROP TABLE manche_theme');
+        $this->addSql('DROP TABLE feuille');
         $this->addSql('DROP TABLE resultat_manche');
         $this->addSql('DROP TABLE resultat_manche_user');
         $this->addSql('DROP TABLE resultat_manche_manche');
