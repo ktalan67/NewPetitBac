@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-
-<title>User</title>
+{% extends 'base.html.twig' %}
 
 {% block body %}
     <h1>User</h1>
@@ -12,8 +10,8 @@
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
-                <th>Pseudo</th>
-                <td>{{ user.pseudo }}</td>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
             </tr>
             <tr>
                 <th>Experience</th>
