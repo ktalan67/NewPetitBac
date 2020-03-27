@@ -147,7 +147,7 @@ class AppFixtures extends Fixture
             // Ajout Users à la manche
             $manche->addUser($usersList[0]);
             $manche->addUser($usersList[1]);
-            $manche->addUser($usersList[2]);
+            $manche->addUser($usersList[2]);      
             // Attribution de "questions" à la manche
             shuffle($questionsList);
             $manche->addQuestion($questionsList[0]);

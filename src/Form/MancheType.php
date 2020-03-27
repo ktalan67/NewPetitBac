@@ -2,31 +2,30 @@
 
 namespace App\Form;
 
-use App\Entity\Game;
-use App\Entity\User;
+use App\Entity\Manche;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GameNewType extends AbstractType
+class MancheType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('users', EntityType::class, [
-            'class' => User::class,
-            'choice_label' => 'username',
-            'expanded' => true,
-            'multiple' => true,
-        ]
-        );
+            ->add('nom')
+            ->add('temps')
+            ->add('users')
+            ->add('games')
+            ->add('questions')
+            ->add('resultatManches')
+            ->add('theme')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Game::class,
+            'data_class' => Manche::class,
         ]);
     }
 }

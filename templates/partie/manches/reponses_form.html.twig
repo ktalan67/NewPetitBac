@@ -1,0 +1,34 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h2>Lettre ""</h2>
+
+{{ form_start(form) }}
+
+<h5>{{ manche.questions[0].Title }}</h5>
+{{ form_row(form.reponse_1) }}
+
+<h5>{{ manche.questions[1].Title }}</h5>
+{{ form_row(form.reponse_2) }}
+
+<h5>{{ manche.questions[2].Title }}</h5>
+{{ form_row(form.reponse_3) }}
+
+<h5>{{ manche.questions[3].Title }}</h5>
+{{ form_row(form.reponse_4) }}
+
+<h5>{{ manche.questions[4].Title }}</h5>
+{{ form_row(form.reponse_5) }}
+
+<h5>{{ manche.questions[5].Title }}</h5>
+{{ form_row(form.reponse_6) }}
+
+<h5>{{ manche.questions[6].Title }}</h5>
+{{ form_row(form.reponse_7) }}
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+{% endblock %}

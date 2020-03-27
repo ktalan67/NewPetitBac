@@ -8,10 +8,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/main")
+ * @Route("/")
  */
 class MainController extends AbstractController
 {
+    /**
+     * @Route("/main", name="api_index", methods={"GET"})
+     */
+    public function home(): Response
+    {
+        return $this->render('main/home.html.twig');
+    }
+
     /**
      * @Route("/", name="index", methods={"GET"})
      */
@@ -19,4 +27,6 @@ class MainController extends AbstractController
     {
         return $this->render('main/index.html.twig');
     }
+    
+    
 }

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manche index{% endblock %}
+
+{% block body %}
+    <h1>Manche {{ manche.nom }} Resultats</h1>
+
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+        {% for feuille in manche.feuilles %}
+        <th scope="col">{{ feuille.user.username }}</th>
+        {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <th scope="row">Réponse 1</th>
+                {% for feuille in manche.feuilles %}
+                <td>{{ feuille.reponse1 }}</td>
+                {% endfor %}
+    </tr>
+    <tr>
+        <th scope="row">Réponse 2</th>
+                {% for feuille in manche.feuilles %}
+                <td>{{ feuille.reponse2 }}</td>
+                {% endfor %}
+    </tr>
+    <tr>
+        <th scope="row">Réponse 3</th>
+                {% for feuille in manche.feuilles %}
+                <td>{{ feuille.reponse3 }}</td>
+                {% endfor %}
+    </tr>
+    <tr>
+        <th scope="row">Réponse 4</th>
+                {% for feuille in manche.feuilles %}
+                <td>{{ feuille.reponse4 }}</td>
+                {% endfor %}
+    </tr>
+    <tr>
+        <th scope="row">Réponse 5</th>
+                {% for feuille in manche.feuilles %}
+                <td>{{ feuille.reponse5 }}</td>
+                {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">Réponse 6</th>
+                {% for feuille in manche.feuilles %}
+                <td>{{ feuille.reponse6 }}</td>
+                {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">Réponse 7</th>
+                {% for feuille in manche.feuilles %}
+                <td>{{ feuille.reponse7 }}</td>
+                {% endfor %}
+    </tr>
+  </tbody>
+</table>
+
+    <a href="{{ path('vote') }}">Voter</a>
+{% endblock %}

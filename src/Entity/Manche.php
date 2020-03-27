@@ -34,11 +34,6 @@ class Manche
     private $users;
 
     /**
-     * @ORM\Column(type="integer", nullable=true))
-     */
-    private $score;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="manches")
      */
     private $games;
@@ -58,6 +53,11 @@ class Manche
      */
     private $theme;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Feuille", mappedBy="manche")
+     */
+    private $feuilles;
+
 
     public function __construct()
     {
@@ -66,6 +66,7 @@ class Manche
         $this->questions = new ArrayCollection();
         //$this->resultatManches = new ArrayCollection();
         $this->theme = new ArrayCollection();
+        $this->feuilles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,6 +211,37 @@ class Manche
     {
         if ($this->theme->contains($theme)) {
             $this->theme->removeElement($theme);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Feuille[]
+     */
+    public function getFeuilles(): Collection
+    {
+        return $this->feuilles;
+    }
+
+    public function addFeuille(Feuille $feuille): self
+    {
+        if (!$this->feuilles->contains($feuille)) {
+            $this->feuilles[] = $feuille;
+            $feuille->setManche($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeuille(Feuille $feuille): self
+    {
+        if ($this->feuilles->contains($feuille)) {
+            $this->feuilles->removeElement($feuille);
+            // set the owning side to null (unless already changed)
+            if ($feuille->getManche() === $this) {
+                $feuille->setManche(null);
+            }
         }
 
         return $this;

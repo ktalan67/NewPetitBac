@@ -58,6 +58,16 @@ class Feuille
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manche", inversedBy="feuilles")
+     */
+    private $manche;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $score;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -155,6 +165,30 @@ class Feuille
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getManche(): ?Manche
+    {
+        return $this->manche;
+    }
+
+    public function setManche(?Manche $manche): self
+    {
+        $this->manche = $manche;
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(?int $score): self
+    {
+        $this->score = $score;
 
         return $this;
     }

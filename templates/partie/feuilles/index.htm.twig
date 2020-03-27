@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manche index{% endblock %}
+
+{% block body %}
+    <h1>Feuille index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Répondu par User</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ feuille.id }}</td>
+                <td>{{ feuille.user.username }}</td>
+                <td>
+                    <a href="{{ path('manche_show', {'id': feuille.id}) }}">show</a>
+                    <a href="{{ path('manche_edit', {'id': feuille.id}) }}">edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="{{ path('user_index') }}">Jouer</a>
+{% endblock %}

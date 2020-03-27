@@ -32,11 +32,12 @@ class FeuilleController extends AbstractController
     public function new(Request $request): Response
     {
         $feuille = new Feuille();
+        $user = $this->getUser(); 
         $form = $this->createForm(FeuilleNewType::class, $feuille);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //Enregistrement de la feuille au user
-            
+            $feuille->setUser($user);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($feuille);
             $entityManager->flush();
@@ -104,5 +105,5 @@ class FeuilleController extends AbstractController
             'feuille' => $feuille,
         ]);
     }
-
+    
 }
