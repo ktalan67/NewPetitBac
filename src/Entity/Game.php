@@ -28,6 +28,11 @@ class Game
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nom;
+
     public function __construct()
     {
         $this->manches = new ArrayCollection();
@@ -47,19 +52,19 @@ class Game
         return $this->manches;
     }
 
-    public function addManch(Manche $manch): self
+    public function addManche(Manche $manche): self
     {
-        if (!$this->manches->contains($manch)) {
-            $this->manches[] = $manch;
+        if (!$this->manches->contains($manche)) {
+            $this->manches[] = $manche;
         }
 
         return $this;
     }
 
-    public function removeManch(Manche $manch): self
+    public function removeManche(Manche $manche): self
     {
-        if ($this->manches->contains($manch)) {
-            $this->manches->removeElement($manch);
+        if ($this->manches->contains($manche)) {
+            $this->manches->removeElement($manche);
         }
 
         return $this;
@@ -87,6 +92,18 @@ class Game
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
         }
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(?string $nom): self
+    {
+        $this->nom = $nom;
 
         return $this;
     }

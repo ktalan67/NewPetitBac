@@ -81,21 +81,21 @@ class Question
         return $this->manches;
     }
 
-    public function addManch(Manche $manch): self
+    public function addManche(Manche $manche): self
     {
-        if (!$this->manches->contains($manch)) {
-            $this->manches[] = $manch;
-            $manch->addQuestion($this);
+        if (!$this->manches->contains($manche)) {
+            $this->manches[] = $manche;
+            $manche->addQuestion($this);
         }
 
         return $this;
     }
 
-    public function removeManch(Manche $manch): self
+    public function removeManch(Manche $manche): self
     {
-        if ($this->manches->contains($manch)) {
-            $this->manches->removeElement($manch);
-            $manch->removeQuestion($this);
+        if ($this->manches->contains($manche)) {
+            $this->manches->removeElement($manche);
+            $manche->removeQuestion($this);
         }
 
         return $this;

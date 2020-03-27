@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use App\Entity\User;
 use App\Entity\Manche;
 use App\Entity\Feuille;
+use App\Form\GameNewType;
 use App\Form\MancheNewType;
 use App\Form\FeuilleNewType;
 use App\Repository\UserRepository;
@@ -35,7 +37,66 @@ class PartieController extends AbstractController
     /**
     * @Route("/new", name="nouvelle_partie", methods={"GET","POST"})
     */
-    public function new(Request $request, QuestionRepository $questionRepository): Response
+    public function newGame(Request $request, QuestionRepository $questionRepository): Response
+    {
+        $game = new Game();
+        $manche = new Manche();
+        $user = $this->getUser();
+        $form = $this->createForm(GameNewType::class, $game);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+           $usersList = $game->getUsers();
+           // NOMMAGE DE LA MANCHE... POUR LA RETROUVER ENSUITE ?
+           $mancheNom = 'Manche-'.$user->getId().'-lol'; 
+           $manche->setNom($mancheNom);
+           $manche->setTemps(3);
+
+        //Ajout des questions à la manche
+            $questionsList = $questionRepository->findAll();
+            $manche->addQuestion($questionsList[0]);
+            $manche->addQuestion($questionsList[1]);
+            $manche->addQuestion($questionsList[2]);
+            $manche->addQuestion($questionsList[3]);
+            $manche->addQuestion($questionsList[4]);
+            $manche->addQuestion($questionsList[5]);
+            $manche->addQuestion($questionsList[6]);
+            $manche->addUser($user);
+            
+        //ajout de la manche à chaque user
+            foreach ($user as $usersList){
+            $user->setManche($manche);
+            $manche->addUser($user);
+            }
+        //ajout de la manche au game
+            $game->addManche($manche);
+            foreach ($user as $usersList){
+            $game->addUser($user);
+            }
+            // NOMMAGE DU GAME... POUR LE RETROUVER ENSUITE ?
+            $gameNom = 'Game-'.$user->getId().'-lol'; 
+            $game->setNom($gameNom);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($manche);
+            $entityManager->persist($game);
+            $entityManager->flush();
+            $id = $manche->getId();
+            return $this->redirectToRoute('manche', [
+                'id' => $id,
+                'manche' => $manche,
+            ]);
+        }
+
+        return $this->render('partie/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+    * @Route("/manche/new", name="nouvelle_manche", methods={"GET","POST"})
+    */
+    public function newManche(Request $request, QuestionRepository $questionRepository): Response
     {
         $manche = new Manche();
         $user = $this->getUser();
@@ -54,6 +115,10 @@ class PartieController extends AbstractController
             $manche->addQuestion($questionsList[0]);
             $manche->addQuestion($questionsList[1]);
             $manche->addQuestion($questionsList[2]);
+            $manche->addQuestion($questionsList[3]);
+            $manche->addQuestion($questionsList[4]);
+            $manche->addQuestion($questionsList[5]);
+            $manche->addQuestion($questionsList[6]);
             $manche->addUser($user);
             
         //ajout de la manche à chaque user
@@ -76,6 +141,7 @@ class PartieController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     /**
     * @Route("/reponses/{id}", name="etape_2", methods={"GET","POST"})
@@ -189,7 +255,6 @@ class PartieController extends AbstractController
         else {
         throw $this->createAccessDeniedException('Non autorisé.');
                 }
-
     }
 
     /**
