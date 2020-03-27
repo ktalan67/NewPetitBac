@@ -15,13 +15,6 @@ class MancheNewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('users', EntityType::class, [
-            'class' => User::class,
-            'choice_label' => 'username',
-            'expanded' => true,
-            'multiple' => true,
-        ]
-        )
         ->add('theme', EntityType::class, [
             'class' => Theme::class,
             'choice_label' => 'nom',
