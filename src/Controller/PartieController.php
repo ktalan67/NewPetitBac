@@ -80,12 +80,53 @@ class PartieController extends AbstractController
     /**
     * @Route("/reponses/{id}", name="etape_2", methods={"GET","POST"})
     */
-    public function answers($id, Request $request, MancheRepository $mancheRepository, QuestionRepository $questionRepository): Response
+    public function answers($id, Request $request, MancheRepository $mancheRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
     {
         //Vérification si User a deja répondu @TODO
-        //
-        // 
-        //
+
+        //--Acces uniquement si l'user n'a pas de feuille dans la manche
+
+        //Recuperation de la manche 
+        $manche = $mancheRepository->find($id);
+        // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
+        //Recuperation de l'user et son Id
+        $user = $this->getUser();
+        $userId = $user->getId();
+        //Recuperation de la liste des users de la manche
+        $usersList = $manche->getUsers();
+        //creation d'une liste des Ids des users de la manche
+        $userMancheIdList = [];
+        foreach ($usersList as $userManche) {
+        $userMancheId = $userManche->getId();
+        $userMancheIdList[] = $userMancheId;
+        }
+        //Vérification si User est dans la liste
+        if (in_array($userId, $userMancheIdList)) {
+        //Comparaison ID feuilles avec ID User -> Si existe, user a deja repondu ->redirection manche index
+        $feuillesList = $manche->getFeuilles();
+        $feuilleMancheUsersList = [];
+        $feuilleMancheUsersIdList = [];
+        foreach ($feuillesList as $feuilleManche) {
+            $feuilleMancheUser = $feuilleManche->getUser();
+            $feuilleMancheUsersList[] = $feuilleMancheUser;
+        }
+        foreach ($feuilleMancheUsersList as $feuilleUserId) {
+            $feuilleUserId = $feuilleUserId->getId();
+            $feuilleMancheUsersIdList[] = $feuilleUserId;
+        }
+        if (in_array($userId, $feuilleMancheUsersIdList)) {
+            throw $this->createAccessDeniedException('Déjà répondu.');
+            //Redirection si deja repondu
+            //return $this->redirectToRoute('manche', [
+            //    'id' => $id,
+            //]);
+        }
+        }
+        // Créatin de l'accès non-autorisé pour la boucle
+        else {
+        throw $this->createAccessDeniedException('Non autorisé.');
+                }
+                
         $manche = $mancheRepository->find($id);
         $question = $questionRepository->findAll();
         $feuille = new Feuille();
@@ -99,17 +140,16 @@ class PartieController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($feuille);
             $entityManager->flush();
-            return $this->redirectToRoute('etape_3', [
+            return $this->redirectToRoute('manche', [
                 'id' => $id,
             ]);
         }
-
-        return $this->render('partie/etape1a.html.twig', [
+        return $this->render('partie/manches/reponses_form.html.twig', [
             'form' => $form->createView(),
             'question'=> $question,
             'manche' => $manche,
         ]);
-    }
+}
 
     /**
     * @Route("/manche/{id}", name="manche", methods={"GET","POST"})
@@ -121,19 +161,19 @@ class PartieController extends AbstractController
         $manche = $mancheRepository->find($id);
 
         // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
-        //Recuperation de l'user et son username
+        //Recuperation de l'user et son Id
         $user = $this->getUser();
-        $username = $user->getUsername();
+        $userId = $user->getId();
         //Recuperation de la liste des users de la manche
         $usersList = $manche->getUsers();
-        //creation d'une liste des usernames de la manche
-        $userMancheUsernameList = [];
+        //creation d'une liste des Ids des users de la manche
+        $userMancheIdList = [];
         foreach ($usersList as $userManche) {
-        $userMancheUsername = $userManche->getUsername();
-        $userMancheUsernameList[] = $userMancheUsername;
+        $userMancheId = $userManche->getId();
+        $userMancheIdList[] = $userMancheId;
         }
         //Vérification si User est dans la liste
-        if (in_array($username, $userMancheUsernameList)) {
+        if (in_array($userId, $userMancheIdList)) {
 
         $manche = $mancheRepository->find($id);
         $feuille = $feuilleRepository->findAll();
