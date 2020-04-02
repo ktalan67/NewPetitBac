@@ -20,11 +20,6 @@ class Game
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Manche", inversedBy="games")
-     */
-    private $manches;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="games")
      */
     private $users;
@@ -49,42 +44,27 @@ class Game
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Feuille", mappedBy="game")
+     */
+    private $feuilles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Manche", mappedBy="game")
+     */
+    private $manches;
+
     public function __construct()
     {
-        $this->manches = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->feuilles = new ArrayCollection();
+        $this->manches = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Manche[]
-     */
-    public function getManches(): Collection
-    {
-        return $this->manches;
-    }
-
-    public function addManche(Manche $manche): self
-    {
-        if (!$this->manches->contains($manche)) {
-            $this->manches[] = $manche;
-        }
-
-        return $this;
-    }
-
-    public function removeManche(Manche $manche): self
-    {
-        if ($this->manches->contains($manche)) {
-            $this->manches->removeElement($manche);
-        }
-
-        return $this;
     }
 
     /**
@@ -157,6 +137,68 @@ class Game
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Feuille[]
+     */
+    public function getFeuilles(): Collection
+    {
+        return $this->feuilles;
+    }
+
+    public function addFeuille(Feuille $feuille): self
+    {
+        if (!$this->feuilles->contains($feuille)) {
+            $this->feuilles[] = $feuille;
+            $feuille->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeuille(Feuille $feuille): self
+    {
+        if ($this->feuilles->contains($feuille)) {
+            $this->feuilles->removeElement($feuille);
+            // set the owning side to null (unless already changed)
+            if ($feuille->getGame() === $this) {
+                $feuille->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Manche[]
+     */
+    public function getManches(): Collection
+    {
+        return $this->manches;
+    }
+
+    public function addManche(Manche $manch): self
+    {
+        if (!$this->manches->contains($manch)) {
+            $this->manches[] = $manch;
+            $manch->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManches(Manche $manche): self
+    {
+        if ($this->manches->contains($manche)) {
+            $this->manches->removeElement($manche);
+            // set the owning side to null (unless already changed)
+            if ($manche->getGame() === $this) {
+                $manche->setGame(null);
+            }
+        }
 
         return $this;
     }

@@ -34,11 +34,6 @@ class Manche
     private $users;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="manches")
-     */
-    private $games;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Question", inversedBy="manches")
      */
     private $questions;
@@ -52,11 +47,6 @@ class Manche
      * @ORM\ManyToMany(targetEntity="App\Entity\Theme", inversedBy="manches")
      */
     private $theme;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Feuille", mappedBy="manche")
-     */
-    private $feuilles;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -73,16 +63,24 @@ class Manche
      */
     private $updated_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="manches")
+     */
+    private $game;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Feuille", mappedBy="manche")
+     */
+    private $feuilles;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->games = new ArrayCollection();
         $this->questions = new ArrayCollection();
         //$this->resultatManches = new ArrayCollection();
         $this->theme = new ArrayCollection();
-        $this->feuilles = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->feuilles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,37 +230,6 @@ class Manche
         return $this;
     }
 
-    /**
-     * @return Collection|Feuille[]
-     */
-    public function getFeuilles(): Collection
-    {
-        return $this->feuilles;
-    }
-
-    public function addFeuille(Feuille $feuille): self
-    {
-        if (!$this->feuilles->contains($feuille)) {
-            $this->feuilles[] = $feuille;
-            $feuille->setManche($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFeuille(Feuille $feuille): self
-    {
-        if ($this->feuilles->contains($feuille)) {
-            $this->feuilles->removeElement($feuille);
-            // set the owning side to null (unless already changed)
-            if ($feuille->getManche() === $this) {
-                $feuille->setManche(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCreatorId(): ?int
     {
         return $this->creator_id;
@@ -295,6 +262,49 @@ class Manche
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getGame(): ?Game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?Game $game): self
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Feuille[]
+     */
+    public function getFeuilles(): Collection
+    {
+        return $this->feuilles;
+    }
+
+    public function addFeuille(Feuille $feuille): self
+    {
+        if (!$this->feuilles->contains($feuille)) {
+            $this->feuilles[] = $feuille;
+            $feuille->setManche($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeuille(Feuille $feuille): self
+    {
+        if ($this->feuilles->contains($feuille)) {
+            $this->feuilles->removeElement($feuille);
+            // set the owning side to null (unless already changed)
+            if ($feuille->getManche() === $this) {
+                $feuille->setManche(null);
+            }
+        }
 
         return $this;
     }

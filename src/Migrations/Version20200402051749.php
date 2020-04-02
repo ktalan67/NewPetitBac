@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200326190442 extends AbstractMigration
+final class Version20200402051749 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,9 @@ final class Version20200326190442 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE feuille ADD manche_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE feuille ADD CONSTRAINT FK_EF726C463E37BFAB FOREIGN KEY (manche_id) REFERENCES manche (id)');
-        $this->addSql('CREATE INDEX IDX_EF726C463E37BFAB ON feuille (manche_id)');
+        $this->addSql('CREATE TABLE feuille_question (feuille_id INT NOT NULL, question_id INT NOT NULL, INDEX IDX_2E1EAB0265150016 (feuille_id), INDEX IDX_2E1EAB021E27F6BF (question_id), PRIMARY KEY(feuille_id, question_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE feuille_question ADD CONSTRAINT FK_2E1EAB0265150016 FOREIGN KEY (feuille_id) REFERENCES feuille (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE feuille_question ADD CONSTRAINT FK_2E1EAB021E27F6BF FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE');
     }
 
     public function down(Schema $schema) : void
@@ -32,8 +32,6 @@ final class Version20200326190442 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE feuille DROP FOREIGN KEY FK_EF726C463E37BFAB');
-        $this->addSql('DROP INDEX IDX_EF726C463E37BFAB ON feuille');
-        $this->addSql('ALTER TABLE feuille DROP manche_id');
+        $this->addSql('DROP TABLE feuille_question');
     }
 }

@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Manche index{% endblock %}
+{% block title %}Manche{% endblock %}
 
 {% block body %}
-    <h1>Manche {{ manche.nom }} Resultats</h1>
+    <h1>Manche {{ manche.nom }} Feuilles</h1>
 
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">Mes réponses</th>
             {% for feuille in manche.feuilles %}
             <th scope="col">{{ feuille.user.username }}</th>
             {% endfor %}
@@ -19,9 +19,9 @@
         <tr>
             <th scope="row">Réponse 1</th>
             {% for feuille in manche.feuilles %}
-            <td>{{ feuille.reponse1 }}</td>
+            <td>{{ feuille.reponse[0] }}</td>
             {% endfor %}
-            <td>{{ manche.questions[0].Title }}</td>
+            <td>{{ question[0].Title }}</td>
 
         </tr>
         <tr>
@@ -29,44 +29,44 @@
             {% for feuille in manche.feuilles %}
             <td>{{ feuille.reponse2 }}</td>
             {% endfor %}
-            <td>{{ manche.questions[1].Title }}</td>
+            <td>{{ question[1].Title }}</td>
         </tr>
         <tr>
             <th scope="row">Réponse 3</th>
             {% for feuille in manche.feuilles %}
             <td>{{ feuille.reponse3 }}</td>
             {% endfor %}
-            <td>{{ manche.questions[2].Title }}</td>
+            <td>{{ question[2].Title }}</td>
         </tr>
         <tr>
             <th scope="row">Réponse 4</th>
             {% for feuille in manche.feuilles %}
             <td>{{ feuille.reponse4 }}</td>
             {% endfor %}
-            <td>{{ manche.questions[3].Title }}</td>
+            <td>{{ question[3].Title }}</td>
         </tr>
         <tr>
             <th scope="row">Réponse 5</th>
             {% for feuille in manche.feuilles %}
             <td>{{ feuille.reponse5 }}</td>
             {% endfor %}
-            <td>{{ manche.questions[4].Title }}</td>
+            <td>{{ question[4].Title }}</td>
         </tr>
         <tr>
             <th scope="row">Réponse 6</th>
             {% for feuille in manche.feuilles %}
             <td>{{ feuille.reponse6 }}</td>
             {% endfor %}
-            <td>{{ manche.questions[5].Title }}</td>
+            <td>{{ question[5].Title }}</td>
         </tr>
         <tr>
             <th scope="row">Réponse 7</th>
             {% for feuille in manche.feuilles %}
             <td>{{ feuille.reponse7 }}</td>
             {% endfor %}
-            <td>{{ manche.questions[6].Title }}</td>
+            <td>{{ question[6].Title }}</td>
         </tr>
     </tbody>
 </table>
-    <a href="{{ path('nouvelle_manche') }}">Nouvelle Manche</a>
+
 {% endblock %}

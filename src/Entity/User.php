@@ -72,7 +72,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Feuille", mappedBy="user")
      */
-    private $feuille;
+    private $feuilles;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -89,7 +89,7 @@ class User implements UserInterface
         $this->manches = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->resultatManches = new ArrayCollection();
-        $this->feuille = new ArrayCollection();
+        $this->feuilles = new ArrayCollection();
         $this->created_at = new \DateTime();
     }
 
@@ -284,9 +284,9 @@ class User implements UserInterface
     /**
      * @return Collection|Feuille[]
      */
-    public function getFeuille(): Collection
+    public function getFeuilles(): Collection
     {
-        return $this->feuille;
+        return $this->feuilles;
     }
 
     public function addFeuille(Feuille $feuille): self

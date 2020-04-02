@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Feuille index{% endblock %}
+
+{% block body %}
+    <h1>Feuille index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Feuille Id</th>
+                <th>Répondu par User</th>
+                <th>Manche Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ feuille.id }}</td>
+                <td>{{ feuille.user.username }}</td>
+                <td>{{ feuille.manche.nom }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                {% for question in feuille.questions %}
+                <th>{{ question.title }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody> 
+            <tr>          
+                <td>{{ feuille.reponse1 }}</td>
+                <td>{{ feuille.reponse2 }}</td>
+                <td>{{ feuille.reponse3 }}</td>
+                <td>{{ feuille.reponse4 }}</td>
+                <td>{{ feuille.reponse5 }}</td>
+                <td>{{ feuille.reponse6 }}</td>
+                <td>{{ feuille.reponse7 }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+                {% for question in feuille.questions %}
+                {{ question.title }}
+                {% endfor %}
+{% endblock %}

@@ -48,11 +48,17 @@ class Question
      */
     private $updated_at;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Feuille", mappedBy="questions")
+     */
+    private $feuilles;
+
     public function __construct()
     {
         $this->manches = new ArrayCollection();
         $this->theme = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->feuilles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -158,6 +164,34 @@ class Question
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Feuille[]
+     */
+    public function getFeuilles(): Collection
+    {
+        return $this->feuilles;
+    }
+
+    public function addFeuille(Feuille $feuille): self
+    {
+        if (!$this->feuilles->contains($feuille)) {
+            $this->feuilles[] = $feuille;
+            $feuille->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeuille(Feuille $feuille): self
+    {
+        if ($this->feuilles->contains($feuille)) {
+            $this->feuilles->removeElement($feuille);
+            $feuille->removeQuestion($this);
+        }
 
         return $this;
     }

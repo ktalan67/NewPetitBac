@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manche{% endblock %}
+
+{% block body %}
+    <h1>{{ manche.nom }}</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sujets</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ question[0].Title }}</td>
+        </tr>
+        <tr>
+            <td>{{ question[1].Title }}</td>
+        </tr>
+        <tr>
+            <td>{{ question[2].Title }}</td>
+        </tr>
+        <tr>
+            <td>{{ question[3].Title }}</td>
+        </tr>
+        <tr>
+            <td>{{ question[4].Title }}</td>
+        </tr>
+        <tr>
+            <td>{{ question[5].Title }}</td>
+        </tr>
+        <tr>
+            <td>{{ question[6].Title }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Users</th>
+            <th scope="col">A répondu</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in manche.users %}
+        <tr>
+            <td>{{ user.username }}</td>
+        <tr>
+        {% endfor %}
+
+
+        {% for feuille in manche.feuilles %}
+        <tr>
+            <td><a href="{{ path('ma_feuille', {'id': manche.game.id, 'id1': manche.game.id, 'id2': feuille.id}) }}">{{ feuille.id }}</a></td>
+        <tr>
+        {% endfor %}
+
+
+
+    </tbody>
+</table>
+<a href="{{ path('nouvelle_feuille', {'id': manche.game.id, 'id1': manche.game.id}) }}">Répondre</a>
+
+{% endblock %}

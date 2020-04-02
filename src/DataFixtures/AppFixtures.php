@@ -11,6 +11,7 @@ use App\Entity\Question;
 use App\Entity\UserReponses;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -137,7 +138,7 @@ class AppFixtures extends Fixture
         // Liste des Manches
         $manchesList = [];
         //Création de 4 Manches
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $manche = new Manche();
             $manche->setNom($manches[$i]);
             $manche->setTemps(2);
@@ -147,14 +148,20 @@ class AppFixtures extends Fixture
             // Ajout Users à la manche
             $manche->addUser($usersList[0]);
             $manche->addUser($usersList[1]);
-            $manche->addUser($usersList[2]);      
+            $manche->addUser($usersList[2]);   
             // Attribution de "questions" à la manche
             shuffle($questionsList);
             $manche->addQuestion($questionsList[0]);
             shuffle($questionsList);
             $manche->addQuestion($questionsList[1]);
             shuffle($questionsList);
-            $manche->addQuestion($questionsList[2]);
+            $manche->addQuestion($questionsList[3]);
+            shuffle($questionsList);
+            $manche->addQuestion($questionsList[4]);
+            shuffle($questionsList);
+            $manche->addQuestion($questionsList[5]);
+            shuffle($questionsList);
+            $manche->addQuestion($questionsList[6]);
             $manchesList[] = $manche;
             $manager->persist($manche);
         }
@@ -163,13 +170,12 @@ class AppFixtures extends Fixture
         $game->addUser($usersList[0]);
         $game->addUser($usersList[1]);
         $game->addUser($usersList[2]);
-        $game->addManch($manchesList[0]);
-        $game->addManch($manchesList[1]);
-        $game->addManch($manchesList[2]);
+        $game->addManche($manchesList[0]);
+        $game->addManche($manchesList[1]);
         $manager->persist($game);
 
     //Création de deux Feuilles-réponses aléatoires (manche1)
-    //feuille user 0
+    //feuille 1 user 0
         $feuille0 = new Feuille();
         $feuille0->setReponse1($usersReponses[0]);
         $feuille0->setReponse2($usersReponses[1]);
@@ -179,8 +185,25 @@ class AppFixtures extends Fixture
         $feuille0->setReponse6($usersReponses[5]);
         $feuille0->setReponse7($usersReponses[6]);
         $feuille0->setUser($usersList[0]);
+        $feuille0->setGame($game);
+        $feuille0->setManche($manchesList[0]);
         $manager->persist($feuille0);
-    //feuille user 1
+
+        //feuille 2 user 0
+        $feuille02 = new Feuille();
+        $feuille02->setReponse1($usersReponses[0]);
+        $feuille02->setReponse2($usersReponses[1]);
+        $feuille02->setReponse3($usersReponses[2]);
+        $feuille02->setReponse4($usersReponses[3]);
+        $feuille02->setReponse5($usersReponses[4]);
+        $feuille02->setReponse6($usersReponses[5]);
+        $feuille02->setReponse7($usersReponses[6]);
+        $feuille02->setUser($usersList[0]);
+        $feuille02->setGame($game);
+        $feuille02->setManche($manchesList[1]);
+        $manager->persist($feuille02);
+
+        //feuille 1 user 1
         $feuille1 = new Feuille();
         $feuille1->setReponse1($usersReponses[7]);
         $feuille1->setReponse2($usersReponses[8]);
@@ -190,9 +213,23 @@ class AppFixtures extends Fixture
         $feuille1->setReponse6($usersReponses[12]);
         $feuille1->setReponse7($usersReponses[13]);
         $feuille1->setUser($usersList[1]);
+        $feuille1->setGame($game);
+        $feuille1->setManche($manchesList[0]);
         $manager->persist($feuille1);
 
-
+        //feuille 2 user 1
+        $feuille12 = new Feuille();
+        $feuille12->setReponse1($usersReponses[7]);
+        $feuille12->setReponse2($usersReponses[8]);
+        $feuille12->setReponse3($usersReponses[9]);
+        $feuille12->setReponse4($usersReponses[10]);
+        $feuille12->setReponse5($usersReponses[11]);
+        $feuille12->setReponse6($usersReponses[12]);
+        $feuille12->setReponse7($usersReponses[13]);
+        $feuille12->setUser($usersList[1]);
+        $feuille12->setGame($game);
+        $feuille12->setManche($manchesList[1]);
+        $manager->persist($feuille12);
 
         $manager->flush();
     }

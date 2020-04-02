@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game index{% endblock %}
+
+{% block body %}
+    <h1>Game ID {{ game.id }}</h1> 
+    <h1><a href="{{ path('game_show', {'id': game.id}) }}">{{ game.nom }}</a></h1>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom Manche</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for manche in game.manches %}
+            <tr>
+                <td>{{ manche.id }}</td>
+                <td><a href="{{ path('manche_show', {'id': game.id, 'id1': manche.id}) }}">{{ manche.nom }} </a> </td>
+            </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Users Dans la Partie</th>
+                <th>Feuilles des Users</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for user in game.users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td> {% for feuille in user.feuilles %}
+                <a href="{{ path('ma_feuille', {'id': game.id, 'id1': feuille.manche.id, 'id2': feuille.id}) }}">{{ feuille.id }}</a>
+                {% endfor %}
+                </td>
+            </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+
+<a href="{{ path('nouvelle_manche', {'id': game.id}) }}">Nouvelle Manche</a>
+
+{% endblock %}

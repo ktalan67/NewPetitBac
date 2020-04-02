@@ -59,11 +59,6 @@ class Feuille
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Manche", inversedBy="feuilles")
-     */
-    private $manche;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $score;
@@ -77,6 +72,27 @@ class Feuille
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="feuilles")
+     */
+    private $game;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manche", inversedBy="feuilles")
+     */
+    private $manche;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Question", inversedBy="feuilles")
+     */
+    private $questions;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
+        $this->questions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -179,18 +195,6 @@ class Feuille
         return $this;
     }
 
-    public function getManche(): ?Manche
-    {
-        return $this->manche;
-    }
-
-    public function setManche(?Manche $manche): self
-    {
-        $this->manche = $manche;
-
-        return $this;
-    }
-
     public function getScore(): ?int
     {
         return $this->score;
@@ -223,6 +227,56 @@ class Feuille
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getGame(): ?Game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?Game $game): self
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    public function getManche(): ?Manche
+    {
+        return $this->manche;
+    }
+
+    public function setManche(?Manche $manche): self
+    {
+        $this->manche = $manche;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+        }
 
         return $this;
     }
