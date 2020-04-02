@@ -74,12 +74,12 @@ class Feuille
     private $updated_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="feuilles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="feuilles", cascade={"persist"}))
      */
     private $game;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Manche", inversedBy="feuilles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manche", inversedBy="feuilles", cascade={"persist"}))
      */
     private $manche;
 

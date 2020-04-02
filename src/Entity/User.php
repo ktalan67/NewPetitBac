@@ -205,21 +205,21 @@ class User implements UserInterface
         return $this->manches;
     }
 
-    public function addManch(Manche $manch): self
+    public function addManche(Manche $manche): self
     {
-        if (!$this->manches->contains($manch)) {
+        if (!$this->manches->contains($manche)) {
             $this->manches[] = $manch;
-            $manch->addUser($this);
+            $manche->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeManch(Manche $manch): self
+    public function removeManche(Manche $manche): self
     {
-        if ($this->manches->contains($manch)) {
-            $this->manches->removeElement($manch);
-            $manch->removeUser($this);
+        if ($this->manches->contains($manche)) {
+            $this->manches->removeElement($manche);
+            $manche->removeUser($this);
         }
 
         return $this;
@@ -261,25 +261,26 @@ class User implements UserInterface
         return $this->resultatManches;
     }
 
-    public function addResultatManch(ResultatManche $resultatManch): self
+    public function addResultatManche(ResultatManche $resultatManche): self
     {
-        if (!$this->resultatManches->contains($resultatManch)) {
-            $this->resultatManches[] = $resultatManch;
-            $resultatManch->addUser($this);
+        if (!$this->resultatManches->contains($resultatManche)) {
+            $this->resultatManches[] = $resultatManche;
+            $resultatManche->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeResultatManch(ResultatManche $resultatManch): self
+    public function removeResultatManche(ResultatManche $resultatManche): self
     {
-        if ($this->resultatManches->contains($resultatManch)) {
-            $this->resultatManches->removeElement($resultatManch);
-            $resultatManch->removeUser($this);
+        if ($this->resultatManches->contains($resultatManche)) {
+            $this->resultatManches->removeElement($resultatManche);
+            $resultatManche->removeUser($this);
         }
 
         return $this;
     }
+
 
     /**
      * @return Collection|Feuille[]
