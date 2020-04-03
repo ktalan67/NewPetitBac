@@ -9,6 +9,7 @@ use App\Entity\Feuille;
 use App\Form\GameNewType;
 use App\Form\MancheNewType;
 use App\Form\FeuilleNewType;
+use App\Form\FeuilleVoteType;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 use App\Repository\MancheRepository;
@@ -465,20 +466,41 @@ class PartieController extends AbstractController
         $user = $this->getUser();
         $userId = $user->getId();
         $feuilleUserId = $feuille->getUser()->getId();
+        $form = $this->createForm(FeuilleVoteType::class, $feuille);
+        $form->handleRequest($request);
+
         //Vérification si User est dans la liste
         //////////////////////////////////////////////////////////////////if ($userId == $feuilleUserId) {
+            $oldReponse1Score = $feuille->getReponse1Score();
+            $oldReponse2Score = $feuille->getReponse2Score();
+            $oldReponse3Score = $feuille->getReponse3Score();
+            $oldReponse4Score = $feuille->getReponse4Score();
+            $oldReponse5Score = $feuille->getReponse5Score();
+            $oldReponse6Score = $feuille->getReponse6Score();
+            $oldReponse7Score = $feuille->getReponse7Score();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newReponse1Score = $feuille->getReponse1Score();
+            $feuille->setReponse1Score($newReponse1Score+$oldReponse1Score);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($feuille);
+            $entityManager->flush();
+        }
         return $this->render('partie/feuilles/vote_feuille.html.twig', [
             'manche' => $manche,
             'user'=> $user,
             'feuille'=> $feuille,
             'questions'=> $questions,
             'game' => $game,
+            'form' => $form->createView(),
         ])
-        ;//////////////////////////////////////////////////////////////////////////}
+        ;
+        //////////////////////////////////////////////////////////////////////////}
         // Créatin de l'accès non-autorisé pour la boucle
         //////////////////////////////////////////////////////////////////////else {
         //////////////////////////////////////////////////////////////////////throw $this->createAccessDeniedException('Non autorisé.');
         //////////////////////////////////////////////////////////////////////        }
+
     }
 
 

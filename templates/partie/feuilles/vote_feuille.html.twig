@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Feuille {{ feuille.id }}</h1>Feuille à {{ feuille.user.username }} {{ feuille.user.id }}
-
+{{ form_start(form) }}
 <table class="table">
   <thead>
     <tr>
@@ -17,15 +17,16 @@
   <tbody>
     <tr>
       <td scope="row">Réponses</td>
-      <td id="{{ feuille.user.id }}-reponse1">{{ feuille.reponse1 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse1" name="reponse" value="1">+1</td> 
-      <td id="{{ feuille.user.id }}-reponse2">{{ feuille.reponse2 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse2" name="reponse" value="1">+1</td> 
-      <td id="{{ feuille.user.id }}-reponse3">{{ feuille.reponse3 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse3" name="reponse" value="1">+1</td> 
-      <td id="{{ feuille.user.id }}-reponse4">{{ feuille.reponse4 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse4" name="reponse" value="1">+1</td> 
-      <td id="{{ feuille.user.id }}-reponse5">{{ feuille.reponse5 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse5" name="reponse" value="1">+1</td> 
-      <td id="{{ feuille.user.id }}-reponse6">{{ feuille.reponse6 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse6" name="reponse" value="1">+1 </td> 
-      <td id="{{ feuille.user.id }}-reponse7">{{ feuille.reponse7 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse7" name="reponse" value="1">+1</td> 
+      <td id="{{ feuille.user.id }}-reponse1">{{ feuille.reponse1 }}{{ form_widget(form.reponse_1_score) }}</td> 
+      <td id="{{ feuille.user.id }}-reponse2">{{ feuille.reponse2 }}{{ form_widget(form.reponse_2_score) }}</td> 
+      <td id="{{ feuille.user.id }}-reponse3">{{ feuille.reponse3 }}{{ form_widget(form.reponse_3_score) }}</td> 
+      <td id="{{ feuille.user.id }}-reponse4">{{ feuille.reponse4 }}{{ form_widget(form.reponse_4_score) }}</td> 
+      <td id="{{ feuille.user.id }}-reponse5">{{ feuille.reponse5 }}{{ form_widget(form.reponse_5_score) }}</td> 
+      <td id="{{ feuille.user.id }}-reponse6">{{ feuille.reponse6 }}{{ form_widget(form.reponse_6_score) }}</td> 
+      <td id="{{ feuille.user.id }}-reponse7">{{ feuille.reponse7 }}{{ form_widget(form.reponse_7_score) }}</td> 
     </tr>
   </tbody>
 </table>
 <button class="btn">{{ button_label|default('Save') }}</button>
+  {{ form_end(form) }}
 {% endblock %}

@@ -327,6 +327,12 @@ class Feuille
 
         return $this;
     }
+        public function addReponse1Score(?int $reponse_1_score): self
+    {
+        $this->reponse_1_score = $reponse_1_score;
+
+        return $this;
+    }
 
     public function getReponse2Score(): ?int
     {

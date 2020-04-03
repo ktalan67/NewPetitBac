@@ -8,39 +8,63 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class FeuilleVoteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('reponse_1_score', CheckboxType::class, [
-                'label'    => 'Show this entry publicly?',
-                'required' => false,
+            ->add('reponse_1_score', ChoiceType::class, [
+                'choices'  => [
+                    'MDRRR' => 3,
+                    'Validé' => 1,
+                    'Nope.' => 0,
+            ],
                 ])
-            ->add('reponse_2_score', CheckboxType::class, [
-                'label'    => 'Show this entry publicly?',
-                'required' => false,
+            ->add('reponse_2_score', ChoiceType::class, [
+                'choices'  => [
+                    'MDRRR' => 3,
+                    'Validé' => 1,
+                    'Nope.' => 0,
+            ],
                 ])
-            ->add('reponse_3_score', CheckboxType::class, [
-                'label'    => 'Show this entry publicly?',
-                'required' => false,
+            ->add('reponse_3_score', ChoiceType::class, [
+                'choices'  => [
+                    'MDRRR' => 3,
+                    'Validé' => 1,
+                    'Nope.' => 0,
+            ],
                 ])
-            ->add('reponse_4_score', CheckboxType::class, [
-                'label'    => 'Show this entry publicly?',
-                'required' => false,
+            ->add('reponse_4_score', ChoiceType::class, [
+                'choices'  => [
+                    'MDRRR' => 3,
+                    'Validé' => 1,
+                    'Nope.' => 0,
+            ],
                 ])
-            ->add('reponse_5_score', CheckboxType::class, [
-                'label'    => 'Show this entry publicly?',
-                'required' => false,
+            ->add('reponse_5_score', ChoiceType::class, [
+                'choices'  => [
+                    'MDRRR' => 3,
+                    'Validé' => 1,
+                    'Nope.' => 0,
+            ],
                 ])
-            ->add('reponse_6_score', CheckboxType::class, [
-                'label'    => 'Show this entry publicly?',
-                'required' => false,
+            ->add('reponse_6_score', ChoiceType::class, [
+                'choices'  => [
+                    'MDRRR' => 3,
+                    'Validé' => 1,
+                    'Nope.' => 0,
+            ],
                 ])
-            ->add('reponse_7_score', CheckboxType::class, [
-                'label'    => 'Show this entry publicly?',
-                'required' => false,])
+            ->add('reponse_7_score', ChoiceType::class, [
+                'choices'  => [
+                    'MDRRR' => 3,
+                    'Validé' => 1,
+                    'Nope.' => 0,
+            ],
+                ])
         ;
     }
 
