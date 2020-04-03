@@ -17,7 +17,7 @@
                 {% for manche in game.manches %}
             <tr>
                 <td>{{ manche.id }}</td>
-                <td><a href="{{ path('manche_show', {'id': game.id, 'id1': manche.id}) }}">{{ manche.nom }} </a> </td>
+                <td><a href="{{ path('manche_show', {'id': game.id, 'id2': manche.id}) }}">{{ manche.nom }} </a> </td>
             </tr>
                 {% endfor %}
         </tbody>
@@ -37,7 +37,8 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td> {% for feuille in user.feuilles %}
-                <a href="{{ path('ma_feuille', {'id': game.id, 'id1': feuille.manche.id, 'id2': feuille.id}) }}">{{ feuille.id }}</a>
+                <a href="{{ path('ma_feuille', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}">{{ feuille.id }}</a>
+                <a href="{{ path('nouvelle_feuille_reponse', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}">{{ feuille.id }}</a>
                 {% endfor %}
                 </td>
             </tr>

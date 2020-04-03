@@ -88,6 +88,41 @@ class Feuille
      */
     private $questions;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reponse_1_score;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reponse_2_score;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reponse_3_score;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reponse_4_score;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reponse_5_score;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reponse_6_score;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reponse_7_score;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -277,6 +312,90 @@ class Feuille
         if ($this->questions->contains($question)) {
             $this->questions->removeElement($question);
         }
+
+        return $this;
+    }
+
+    public function getReponse1Score(): ?int
+    {
+        return $this->reponse_1_score;
+    }
+
+    public function setReponse1Score(?int $reponse_1_score): self
+    {
+        $this->reponse_1_score = $reponse_1_score;
+
+        return $this;
+    }
+
+    public function getReponse2Score(): ?int
+    {
+        return $this->reponse_2_score;
+    }
+
+    public function setReponse2Score(?int $reponse_2_score): self
+    {
+        $this->reponse_2_score = $reponse_2_score;
+
+        return $this;
+    }
+
+    public function getReponse3Score(): ?int
+    {
+        return $this->reponse_3_score;
+    }
+
+    public function setReponse3Score(?int $reponse_3_score): self
+    {
+        $this->reponse_3_score = $reponse_3_score;
+
+        return $this;
+    }
+
+    public function getReponse4Score(): ?int
+    {
+        return $this->reponse_4_score;
+    }
+
+    public function setReponse4Score(?int $reponse_4_score): self
+    {
+        $this->reponse_4_score = $reponse_4_score;
+
+        return $this;
+    }
+
+    public function getReponse5Score(): ?int
+    {
+        return $this->reponse_5_score;
+    }
+
+    public function setReponse5Score(?int $reponse_5_score): self
+    {
+        $this->reponse_5_score = $reponse_5_score;
+
+        return $this;
+    }
+
+    public function getReponse6Score(): ?int
+    {
+        return $this->reponse_6_score;
+    }
+
+    public function setReponse6Score(?int $reponse_6_score): self
+    {
+        $this->reponse_6_score = $reponse_6_score;
+
+        return $this;
+    }
+
+    public function getReponse7Score(): ?int
+    {
+        return $this->reponse_7_score;
+    }
+
+    public function setReponse7Score(?int $reponse_7_score): self
+    {
+        $this->reponse_7_score = $reponse_7_score;
 
         return $this;
     }

@@ -74,6 +74,13 @@ class PartieController extends AbstractController
             $feuille->setUser($userGame);
             $feuille->setManche($manche);
             $feuille->setGame($game);
+            $feuille->addQuestion($questionsList[0]); 
+            $feuille->addQuestion($questionsList[1]);
+            $feuille->addQuestion($questionsList[2]);
+            $feuille->addQuestion($questionsList[3]); 
+            $feuille->addQuestion($questionsList[4]);
+            $feuille->addQuestion($questionsList[5]);
+            $feuille->addQuestion($questionsList[6]);
             $em->persist($feuille);
             $em->flush();
             $em->clear(Feuille::class); // methode "magique" pour les boucles, "Detaches all Feuilles objects from Doctrine!"
@@ -88,7 +95,6 @@ class PartieController extends AbstractController
             $entityManager->persist($manche);
             $entityManager->persist($game);
             $entityManager->flush();
-            $id1 = $manche->getId();
             $id = $game->getId();
             return $this->redirectToRoute('game_show', [
                 'id'=> $id,
@@ -102,12 +108,12 @@ class PartieController extends AbstractController
     }
 
     /**
-    * @Route("/{id}/manche/{id1}/feuille/new", name="nouvelle_feuille", methods={"GET","POST"})
+    * @Route("/{id}/manche/{id2}/feuille/{id3}/reponse", name="nouvelle_feuille_reponse", methods={"GET","POST"})
     */
-    public function NewFeuille($id, $id1, Request $request,GameRepository $gameRepository, MancheRepository $mancheRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
+    public function NewFeuilleReponse($id, $id2, $id3, Request $request,GameRepository $gameRepository, MancheRepository $mancheRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
     {
         //Recuperation de la manche 
-        $manche = $mancheRepository->find($id1);
+        $manche = $mancheRepository->find($id2);
         //Recuperation du game 
         $game = $gameRepository->find($id);
         // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
@@ -122,35 +128,35 @@ class PartieController extends AbstractController
         $userMancheId = $userManche->getId();
         $userMancheIdList[] = $userMancheId;
         }
-        //Vérification si User est dans la liste
-        if (in_array($userId, $userMancheIdList)) {
-        //Comparaison ID feuilles avec ID User -> Si existe, user a deja repondu ->redirection manche index
-        $feuillesList = $manche->getFeuilles();
-        $feuilleMancheUsersList = [];
-        $feuilleMancheUsersIdList = [];
-        foreach ($feuillesList as $feuilleManche) {
-            $feuilleMancheUser = $feuilleManche->getUser();
-            $feuilleMancheUsersList[] = $feuilleMancheUser;
-        }
-        foreach ($feuilleMancheUsersList as $feuilleUserId) {
-            $feuilleUserId = $feuilleUserId->getId();
-            $feuilleMancheUsersIdList[] = $feuilleUserId;
-        }
-        if (in_array($userId, $feuilleMancheUsersIdList)) {
-            throw $this->createAccessDeniedException('Déjà répondu.');
-            //Redirection si deja repondu
-            //return $this->redirectToRoute('manche_show', [
-            //    'id' => $id,
-            //]);
-        }
-        }
-        // Créatin de l'accès non-autorisé pour la boucle (si User n'est pas dans la manche)
-        else {
-        throw $this->createAccessDeniedException('Non autorisé.');
-                }
+        //////////////////////////////////////////Vérification si User est dans la liste
+        ////////////////////////////////////////if (in_array($userId, $userMancheIdList)) {
+        //////////////////////////////////////////Comparaison ID feuilles avec ID User -> Si existe, user a deja repondu ->redirection manche index
+        ////////////////////////////////////////$feuillesList = $manche->getFeuilles();
+        ////////////////////////////////////////$feuilleMancheUsersList = [];
+        ////////////////////////////////////////$feuilleMancheUsersIdList = [];
+        ////////////////////////////////////////foreach ($feuillesList as $feuilleManche) {
+        ////////////////////////////////////////    $feuilleMancheUser = $feuilleManche->getUser();
+        ////////////////////////////////////////    $feuilleMancheUsersList[] = $feuilleMancheUser;
+        ////////////////////////////////////////}
+        ////////////////////////////////////////foreach ($feuilleMancheUsersList as $feuilleUserId) {
+        ////////////////////////////////////////    $feuilleUserId = $feuilleUserId->getId();
+        ////////////////////////////////////////    $feuilleMancheUsersIdList[] = $feuilleUserId;
+        ////////////////////////////////////////}
+        ////////////////////////////////////////if (in_array($userId, $feuilleMancheUsersIdList)) {
+        ////////////////////////////////////////    throw $this->createAccessDeniedException('Déjà répondu.');
+        ////////////////////////////////////////    //Redirection si deja repondu
+        ////////////////////////////////////////    //return $this->redirectToRoute('manche_show', [
+        ////////////////////////////////////////    //    'id' => $id,
+        ////////////////////////////////////////    //]);
+        ////////////////////////////////////////}
+        ////////////////////////////////////////}
+        ////////////////////////////////////////// Créatin de l'accès non-autorisé pour la boucle (si User n'est pas dans la manche)
+        ////////////////////////////////////////else {
+        ////////////////////////////////////////throw $this->createAccessDeniedException('Non autorisé.');
+        ////////////////////////////////////////        }
                 
         $manche = $mancheRepository->find($id);
-        $id1 = $manche->getId();
+        $id2 = $manche->getId();
         $question = $questionRepository->findAll();
         $feuille = new Feuille();
         $form = $this->createForm(FeuilleNewType::class, $feuille);
@@ -167,7 +173,7 @@ class PartieController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('manche_show', [
                 'id' => $id,
-                'id1' => $id1,
+                'id2' => $id2,
             ]);
         }
         return $this->render('partie/manches/reponses_form.html.twig', [
@@ -275,14 +281,14 @@ class PartieController extends AbstractController
     }
 
     /**
-    * @Route("/{id}/manche/{id1}", name="manche_show", methods={"GET","POST"})
+    * @Route("/{id}/manche/{id2}", name="manche_show", methods={"GET","POST"})
     */
-    public function mancheShow($id, $id1, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
+    public function mancheShow($id, $id2, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
     {
         //--Acces uniquement si l'user est sur la manche
         //Recuperation de la manche pour retrouver les users inscrits, création de la liste
         $game = $gameRepository->find($id);
-        $manche = $mancheRepository->find($id1);
+        $manche = $mancheRepository->find($id2);
         // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
         //Recuperation de l'user et son Id
         $user = $this->getUser();
@@ -364,25 +370,25 @@ class PartieController extends AbstractController
     }
 
     /**
-    * @Route("/{id}/manche/{id1}/feuille/{id2}", name="ma_feuille", methods={"GET","POST"})
+    * @Route("/{id}/manche/{id2}/feuille/{id3}", name="ma_feuille", methods={"GET","POST"})
     */
-    public function FeuilleMancheShow($id, $id1, $id2, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
+    public function FeuilleMancheShow($id, $id2, $id3, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
     {
         //--Acces uniquement si l'user est sur la manche
         //Recuperation de la manche pour retrouver les users inscrits, création de la liste
         $game = $gameRepository->find($id);
-        $manche = $mancheRepository->find($id1);
-        $feuille = $feuilleRepository->find($id2);
+        $manche = $mancheRepository->find($id2);
+        $feuille = $feuilleRepository->find($id3);
         // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
         //Recuperation de l'user et son Id
         $user = $this->getUser();
         $userId = $user->getId();
         $feuilleUserId = $feuille->getUser()->getId();
         //Vérification si User est dans la liste
-        if ($userId == $feuilleUserId) {
+        //////////////////////////////////////////////////////////////////if ($userId == $feuilleUserId) {
         $game = $gameRepository->find($id);
-        $manche = $mancheRepository->find($id);
-        $feuille = $feuilleRepository->find($id2);
+        $manche = $mancheRepository->find($id2);
+        $feuille = $feuilleRepository->find($id3);
         $question = $questionRepository->findAll();
         return $this->render('partie/feuilles/ma_feuille.html.twig', [
             'manche' => $manche,
@@ -391,12 +397,90 @@ class PartieController extends AbstractController
             'question'=> $question,
             'game' => $game,
         ])
-        ;}
+        ;//////////////////////////////////////////////////////////////////////////}
         // Créatin de l'accès non-autorisé pour la boucle
-        else {
-        throw $this->createAccessDeniedException('Non autorisé.');
-                }
+        //////////////////////////////////////////////////////////////////////else {
+        //////////////////////////////////////////////////////////////////////throw $this->createAccessDeniedException('Non autorisé.');
+        //////////////////////////////////////////////////////////////////////        }
     }
+
+    /**
+    * @Route("/{id}/manche/{id2}/vote/", name="vote_manche", methods={"GET","POST"})
+    */
+    public function MancheVote($id, $id2, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
+    {
+        //--Acces uniquement si l'user est sur la manche
+        $user = $this->getUser();
+        //Recuperation de la manche pour retrouver les users inscrits, création de la liste
+        $game = $gameRepository->find($id);
+        $manche = $mancheRepository->find($id2);
+        $users = $manche->getUsers();
+        // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
+        //Recuperation de l'user et son Id
+        $user = $this->getUser();
+        $userId = $user->getId();
+        //Création des formulaires de vote pour chaque feuille
+        foreach ($users as $userManche) {
+            $userMancheId = $userManche->getId();
+            $MancheUserIdList[] = $userMancheId;
+            }
+        //Recuperer les ids de chaque User de chaque feuille de la manche
+        $MancheUserIdList = [];
+
+        foreach ($users as $userManche) {
+            $userMancheId = $userManche->getId();
+            $MancheUserIdList[] = $userMancheId;
+            }
+        //Vérification si User est dans la liste
+        ///////////////////////////////////////////////////////////////////////if ($userId == $MancheUserIdList) {
+        $game = $gameRepository->find($id);
+        $manche = $mancheRepository->find($id2);
+        $question = $questionRepository->findAll();
+        return $this->render('partie/manches/vote.html.twig', [
+            'manche' => $manche,
+            'user'=> $user,
+            'question'=> $question,
+            'game' => $game,
+        ]);
+        ////////////////////////////////////////////////////////////////////////////}
+        // Créatin de l'accès non-autorisé pour la boucle
+        /////////////////////////////////////////////////////////////////////////////else {
+        /////////////////////////////////////////////////////////////////////////////throw $this->createAccessDeniedException('Non autorisé.');
+        /////////////////////////////////////////////////////////////////////////////        }
+    }
+
+    /**
+    * @Route("/{id}/manche/{id2}/feuille/{id3}/vote/", name="reponse_feuille_vote", methods={"GET","POST"})
+    */
+    public function ReponseFeuilleVote($id, $id2,$id3, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
+    {
+        //--Acces uniquement si l'user est sur la manche
+        //Recuperation de la manche pour retrouver les users inscrits, création de la liste
+        $game = $gameRepository->find($id);
+        $manche = $mancheRepository->find($id2);
+        $feuille = $feuilleRepository->find($id3);
+        $questions = $feuille->getQuestions();
+        // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
+        //Recuperation de l'user et son Id
+        $user = $this->getUser();
+        $userId = $user->getId();
+        $feuilleUserId = $feuille->getUser()->getId();
+        //Vérification si User est dans la liste
+        //////////////////////////////////////////////////////////////////if ($userId == $feuilleUserId) {
+        return $this->render('partie/feuilles/vote_feuille.html.twig', [
+            'manche' => $manche,
+            'user'=> $user,
+            'feuille'=> $feuille,
+            'questions'=> $questions,
+            'game' => $game,
+        ])
+        ;//////////////////////////////////////////////////////////////////////////}
+        // Créatin de l'accès non-autorisé pour la boucle
+        //////////////////////////////////////////////////////////////////////else {
+        //////////////////////////////////////////////////////////////////////throw $this->createAccessDeniedException('Non autorisé.');
+        //////////////////////////////////////////////////////////////////////        }
+    }
+
 
     
 
@@ -415,5 +499,4 @@ class PartieController extends AbstractController
             'question'=> $feuille,
         ]);
     }
-
 }

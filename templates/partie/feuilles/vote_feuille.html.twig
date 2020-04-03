@@ -1,27 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Manche index{% endblock %}
+{% block title %}Feuille index{% endblock %}
 
 {% block body %}
-    <h1>Manche {{ manche.nom }} Vote</h1>
+    <h1>Feuille {{ feuille.id }}</h1>Feuille à {{ feuille.user.username }} {{ feuille.user.id }}
 
-{% for feuille in manche.feuilles %}
 <table class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">{{ question[0].Title }}</th>
-      <th scope="col">{{ question[1].Title }}</th>
-      <th scope="col">{{ question[2].Title }}</th>
-      <th scope="col">{{ question[3].Title }}</th>
-      <th scope="col">{{ question[4].Title }}</th>
-      <th scope="col">{{ question[5].Title }}</th>
-      <th scope="col">{{ question[6].Title }}</th>
+        {% for question in feuille.questions %}
+      <th scope="col">{{ question.title }}</th>
+        {% endfor %}
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td scope="row">Feuille à {{ feuille.user.username }} {{ feuille.user.id }}</td>
+      <td scope="row">Réponses</td>
       <td id="{{ feuille.user.id }}-reponse1">{{ feuille.reponse1 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse1" name="reponse" value="1">+1</td> 
       <td id="{{ feuille.user.id }}-reponse2">{{ feuille.reponse2 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse2" name="reponse" value="1">+1</td> 
       <td id="{{ feuille.user.id }}-reponse3">{{ feuille.reponse3 }} <input type="checkbox" id="{{ feuille.user.id }}-reponse3" name="reponse" value="1">+1</td> 
@@ -33,8 +28,4 @@
   </tbody>
 </table>
 <button class="btn">{{ button_label|default('Save') }}</button>
-{% endfor %}
-
-
-
 {% endblock %}
