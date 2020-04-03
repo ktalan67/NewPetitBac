@@ -18,30 +18,30 @@ class FeuilleVoteType extends AbstractType
         $builder
             ->add('reponse_1_score', ChoiceType::class, [
                 'choices'  => [
-                    'MDRRR' => 3,
-                    'Validé' => 1,
-                    'Nope.' => 0,
+                    'MDRRR' => '3',
+                    'Validé' => '1',
+                    'Nope.' => '0',
             ],
                 ])
             ->add('reponse_2_score', ChoiceType::class, [
                 'choices'  => [
-                    'MDRRR' => 3,
-                    'Validé' => 1,
-                    'Nope.' => 0,
+                    'MDRRR' => '3',
+                    'Validé' => '1',
+                    'Nope.' => '0',
             ],
                 ])
             ->add('reponse_3_score', ChoiceType::class, [
                 'choices'  => [
-                    'MDRRR' => 3,
-                    'Validé' => 1,
-                    'Nope.' => 0,
+                    'MDRRR' => '3',
+                    'Validé' => '1',
+                    'Nope.' => '0',
             ],
                 ])
             ->add('reponse_4_score', ChoiceType::class, [
                 'choices'  => [
-                    'MDRRR' => 3,
-                    'Validé' => 1,
-                    'Nope.' => 0,
+                    'MDRRR' => '3',
+                    'Validé' => '1',
+                    'Nope.' => '0',
             ],
                 ])
             ->add('reponse_5_score', ChoiceType::class, [

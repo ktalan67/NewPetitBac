@@ -453,13 +453,23 @@ class PartieController extends AbstractController
     /**
     * @Route("/{id}/manche/{id2}/feuille/{id3}/vote/", name="reponse_feuille_vote", methods={"GET","POST"})
     */
-    public function ReponseFeuilleVote($id, $id2,$id3, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository): Response
+    public function ReponseFeuilleVote($id, $id2,$id3, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository, EntityManagerInterface $em): Response
     {
         //--Acces uniquement si l'user est sur la manche
         //Recuperation de la manche pour retrouver les users inscrits, création de la liste
         $game = $gameRepository->find($id);
         $manche = $mancheRepository->find($id2);
         $feuille = $feuilleRepository->find($id3);
+
+        $oldReponse1Score = $feuille->getReponse1Score();
+        $oldReponse2Score = $feuille->getReponse2Score();
+        $oldReponse3Score = $feuille->getReponse3Score();
+        $oldReponse4Score = $feuille->getReponse4Score();
+        $oldReponse5Score = $feuille->getReponse5Score();
+        $oldReponse6Score = $feuille->getReponse6Score();
+        $oldReponse7Score = $feuille->getReponse7Score();
+
+
         $questions = $feuille->getQuestions();
         // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
         //Recuperation de l'user et son Id
@@ -471,20 +481,17 @@ class PartieController extends AbstractController
 
         //Vérification si User est dans la liste
         //////////////////////////////////////////////////////////////////if ($userId == $feuilleUserId) {
-            $oldReponse1Score = $feuille->getReponse1Score();
-            $oldReponse2Score = $feuille->getReponse2Score();
-            $oldReponse3Score = $feuille->getReponse3Score();
-            $oldReponse4Score = $feuille->getReponse4Score();
-            $oldReponse5Score = $feuille->getReponse5Score();
-            $oldReponse6Score = $feuille->getReponse6Score();
-            $oldReponse7Score = $feuille->getReponse7Score();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $newReponse1Score = $feuille->getReponse1Score();
-            $feuille->setReponse1Score($newReponse1Score+$oldReponse1Score);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($feuille);
-            $entityManager->flush();
+            $feuille->setReponse1Score($form->getData()->getReponse1Score()+$oldReponse1Score);
+            $feuille->setReponse2Score($form->getData()->getReponse2Score()+$oldReponse2Score);
+            $feuille->setReponse3Score($form->getData()->getReponse3Score()+$oldReponse3Score);
+            $feuille->setReponse4Score($form->getData()->getReponse4Score()+$oldReponse4Score);
+            $feuille->setReponse5Score($form->getData()->getReponse5Score()+$oldReponse5Score);
+            $feuille->setReponse6Score($form->getData()->getReponse6Score()+$oldReponse6Score);
+            $feuille->setReponse7Score($form->getData()->getReponse7Score()+$oldReponse7Score);
+            $em->persist($feuille);
+            $em->flush();
         }
         return $this->render('partie/feuilles/vote_feuille.html.twig', [
             'manche' => $manche,
