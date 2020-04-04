@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\User;
+use App\Entity\Vote;
 use App\Entity\Manche;
 use App\Entity\Feuille;
 use App\Form\GameNewType;
@@ -159,7 +160,7 @@ class PartieController extends AbstractController
         $manche = $mancheRepository->find($id);
         $id2 = $manche->getId();
         $question = $questionRepository->findAll();
-        $feuille = new Feuille();
+        $feuille = $feuilleRepository->find($id3);
         $form = $this->createForm(FeuilleNewType::class, $feuille);
         $form->handleRequest($request);
 
@@ -172,9 +173,10 @@ class PartieController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($feuille);
             $entityManager->flush();
-            return $this->redirectToRoute('manche_show', [
-                'id' => $id,
-                'id2' => $id2,
+            return $this->redirectToRoute('game_show', [
+                'id'=> $id,
+                'game' => $game,
+                'manche' => $manche,
             ]);
         }
         return $this->render('partie/manches/reponses_form.html.twig', [
@@ -353,13 +355,14 @@ class PartieController extends AbstractController
         if (in_array($userId, $userGameIdList)) {
 
         $game = $gameRepository->find($id);
-        $feuille = $feuilleRepository->findAll();
+        $feuilles = $feuilleRepository->findAll();
         $question = $questionRepository->findAll();
         return $this->render('partie/show.html.twig', [
             'user'=> $user,
+            'usersGameList' => $usersGameList,
             'manches'=> $manches, 
             'question'=> $question,
-            'feuille'=> $feuille,
+            'feuilles'=> $feuilles,
             'game'=> $game,
             'feuillesMancheList', $feuillesMancheList,
         ])
@@ -451,7 +454,7 @@ class PartieController extends AbstractController
     }
 
     /**
-    * @Route("/{id}/manche/{id2}/feuille/{id3}/vote/", name="reponse_feuille_vote", methods={"GET","POST"})
+    * @Route("/{id}/manche/{id2}/feuille/{id3}/vote", name="reponse_feuille_vote", methods={"GET","POST"})
     */
     public function ReponseFeuilleVote($id, $id2,$id3, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository, EntityManagerInterface $em): Response
     {
@@ -460,7 +463,29 @@ class PartieController extends AbstractController
         $game = $gameRepository->find($id);
         $manche = $mancheRepository->find($id2);
         $feuille = $feuilleRepository->find($id3);
-
+        // L'User est-il dans la liste des users de la manche ? @TODO ->DECOMMENTER Sinon, "Non autorisé"
+        //Recuperation de l'user et son Id
+        $user = $this->getUser();
+        $userId = $user->getId();
+        ////////////////////////////////////////////////////////////$feuilleUserId = $feuille->getUser()->getId();
+        //Vérification su l'User a déjà voté ou si la feuille est à lui -> Redirection
+        //récupération des votes de la feuille et mise en List
+        //$votesUsersList = [];
+        //$votesList = [];
+        //$votesList[] = $feuille->getVotes();
+        //
+        //foreach ($votes as $voteUser) {
+        //    $voteUser = $votes->getUser();
+        //    $votesUsersIdList[] = $voteUserId;
+        //    }
+        //    dd($votesUsersIdList);
+        //    if (in_array($userId, $votesUsersList)) {
+        //        throw $this->createAccessDeniedException('Déjà répondu.');
+        //        //Redirection si deja repondu
+        //        //return $this->redirectToRoute('manche_show', [
+        //        //    'id' => $id,
+        //    }
+            // Recupération des anciens scores reponses et score total pour les additioner aux nouveaux si "form is submit"
         $oldReponse1Score = $feuille->getReponse1Score();
         $oldReponse2Score = $feuille->getReponse2Score();
         $oldReponse3Score = $feuille->getReponse3Score();
@@ -468,14 +493,9 @@ class PartieController extends AbstractController
         $oldReponse5Score = $feuille->getReponse5Score();
         $oldReponse6Score = $feuille->getReponse6Score();
         $oldReponse7Score = $feuille->getReponse7Score();
-
+        $oldScore = $feuille->getScore();
 
         $questions = $feuille->getQuestions();
-        // L'User est-il dans la liste des users de la manche ? Sinon, "Non autorisé"
-        //Recuperation de l'user et son Id
-        $user = $this->getUser();
-        $userId = $user->getId();
-        $feuilleUserId = $feuille->getUser()->getId();
         $form = $this->createForm(FeuilleVoteType::class, $feuille);
         $form->handleRequest($request);
 
@@ -483,15 +503,40 @@ class PartieController extends AbstractController
         //////////////////////////////////////////////////////////////////if ($userId == $feuilleUserId) {
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $feuille->setReponse1Score($form->getData()->getReponse1Score()+$oldReponse1Score);
-            $feuille->setReponse2Score($form->getData()->getReponse2Score()+$oldReponse2Score);
-            $feuille->setReponse3Score($form->getData()->getReponse3Score()+$oldReponse3Score);
-            $feuille->setReponse4Score($form->getData()->getReponse4Score()+$oldReponse4Score);
-            $feuille->setReponse5Score($form->getData()->getReponse5Score()+$oldReponse5Score);
-            $feuille->setReponse6Score($form->getData()->getReponse6Score()+$oldReponse6Score);
-            $feuille->setReponse7Score($form->getData()->getReponse7Score()+$oldReponse7Score);
+            //Création d'un vote pour identifier l'user
+            $vote = new Vote();
+            $vote->setUser($user);
+            $vote->setFeuille($feuille);
+            //Création de la liste des scores "reçus" pour calculer un array sum ensuite
+            $scoreReponseList = [];
+            $scoreReponseList[] = $Reponse1Score = $form->getData()->getReponse1Score();
+            $scoreReponseList[] = $Reponse2Score = $form->getData()->getReponse2Score();
+            $scoreReponseList[] = $Reponse3Score = $form->getData()->getReponse3Score();
+            $scoreReponseList[] = $Reponse4Score = $form->getData()->getReponse4Score();
+            $scoreReponseList[] = $Reponse5Score = $form->getData()->getReponse5Score();
+            $scoreReponseList[] = $Reponse6Score = $form->getData()->getReponse6Score();
+            $scoreReponseList[] = $Reponse7Score = $form->getData()->getReponse7Score();
+
+            $feuille->setReponse1Score($Reponse1Score+$oldReponse1Score);
+            $feuille->setReponse2Score($Reponse2Score+$oldReponse2Score);
+            $feuille->setReponse3Score($Reponse3Score+$oldReponse3Score);
+            $feuille->setReponse4Score($Reponse4Score+$oldReponse4Score);
+            $feuille->setReponse5Score($Reponse5Score+$oldReponse5Score);
+            $feuille->setReponse6Score($Reponse6Score+$oldReponse6Score);
+            $feuille->setReponse7Score($Reponse7Score+$oldReponse7Score);
+        // Ajout au score total à la feuille
+            $answerScore = array_sum($scoreReponseList);
+            $feuille->setScore($answerScore+$oldScore);
+
             $em->persist($feuille);
+            $em->persist($vote);
             $em->flush();
+        return $this->redirectToRoute('game_show', [
+            'id'=> $id,
+            'game' => $game,
+            'manche' => $manche,
+    
+        ]);
         }
         return $this->render('partie/feuilles/vote_feuille.html.twig', [
             'manche' => $manche,

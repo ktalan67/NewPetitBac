@@ -37,8 +37,10 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td> {% for feuille in user.feuilles %}
-                <a href="{{ path('ma_feuille', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}">{{ feuille.id }}</a>
-                <a href="{{ path('nouvelle_feuille_reponse', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}">{{ feuille.id }}</a>
+                {% if feuille.game.id == game.id  %}
+                <a href="{{ path('ma_feuille', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}">{{ feuille.id }} SHOW</a>
+                <a href="{{ path('nouvelle_feuille_reponse', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}">{{ feuille.id }} REPONDRE</a>
+                {% endif %}
                 {% endfor %}
                 </td>
             </tr>

@@ -74,12 +74,12 @@ class Feuille
     private $updated_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="feuilles", cascade={"persist"}))
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="feuilles", cascade={"persist"})
      */
     private $game;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Manche", inversedBy="feuilles", cascade={"persist"}))
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manche", inversedBy="feuilles", cascade={"persist"})
      */
     private $manche;
 
@@ -123,10 +123,16 @@ class Feuille
      */
     private $reponse_7_score;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vote", mappedBy="feuille")
+     */
+    private $votes;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->questions = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -402,6 +408,37 @@ class Feuille
     public function setReponse7Score(?int $reponse_7_score): self
     {
         $this->reponse_7_score = $reponse_7_score;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setFeuille($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            $this->votes->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getFeuille() === $this) {
+                $vote->setFeuille(null);
+            }
+        }
 
         return $this;
     }
