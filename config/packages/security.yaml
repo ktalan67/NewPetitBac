@@ -29,6 +29,7 @@ security:
     access_control:
         - { path: ^/main/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/main/user/new, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/main/, roles: ROLE_USER }
 
 
     role_hierarchy:

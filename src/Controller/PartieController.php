@@ -11,8 +11,10 @@ use App\Form\GameNewType;
 use App\Form\MancheNewType;
 use App\Form\FeuilleNewType;
 use App\Form\FeuilleVoteType;
+use App\Form\VoteCommentType;
 use App\Repository\GameRepository;
 use App\Repository\UserRepository;
+use App\Repository\VoteRepository;
 use App\Repository\MancheRepository;
 use App\Repository\FeuilleRepository;
 use App\Repository\QuestionRepository;
@@ -73,6 +75,8 @@ class PartieController extends AbstractController
             $manche->addUser($userGame);
             $game->addUser($userGame); 
             $feuille = new Feuille();
+            $alphabet= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+            $feuille->setLettre($alphabet[array_rand($alphabet, 1)]);
             $feuille->setUser($userGame);
             $feuille->setManche($manche);
             $feuille->setGame($game);
@@ -456,7 +460,7 @@ class PartieController extends AbstractController
     /**
     * @Route("/{id}/manche/{id2}/feuille/{id3}/vote", name="reponse_feuille_vote", methods={"GET","POST"})
     */
-    public function ReponseFeuilleVote($id, $id2,$id3, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository, EntityManagerInterface $em): Response
+    public function ReponseFeuilleVote($id, $id2,$id3, Request $request, GameRepository $gameRepository, MancheRepository $mancheRepository, UserRepository $userRepository, FeuilleRepository $feuilleRepository, QuestionRepository $questionRepository, VoteRepository $voteRepository, EntityManagerInterface $em): Response
     {
         //--Acces uniquement si l'user est sur la manche
         //Recuperation de la manche pour retrouver les users inscrits, création de la liste
@@ -467,6 +471,11 @@ class PartieController extends AbstractController
         //Recuperation de l'user et son Id
         $user = $this->getUser();
         $userId = $user->getId();
+
+                    //Création d'un vote pour identifier l'user
+                    $vote = new Vote();
+                    $vote->setUser($user);
+                    $vote->setFeuille($feuille);
         ////////////////////////////////////////////////////////////$feuilleUserId = $feuille->getUser()->getId();
         //Vérification su l'User a déjà voté ou si la feuille est à lui -> Redirection
         //récupération des votes de la feuille et mise en List
@@ -497,16 +506,13 @@ class PartieController extends AbstractController
 
         $questions = $feuille->getQuestions();
         $form = $this->createForm(FeuilleVoteType::class, $feuille);
+        $form2 = $this->createForm(VoteCommentType::class, $vote);
         $form->handleRequest($request);
-
+        $form2->handleRequest($request);
         //Vérification si User est dans la liste
         //////////////////////////////////////////////////////////////////if ($userId == $feuilleUserId) {
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //Création d'un vote pour identifier l'user
-            $vote = new Vote();
-            $vote->setUser($user);
-            $vote->setFeuille($feuille);
             //Création de la liste des scores "reçus" pour calculer un array sum ensuite
             $scoreReponseList = [];
             $scoreReponseList[] = $Reponse1Score = $form->getData()->getReponse1Score();
@@ -545,6 +551,7 @@ class PartieController extends AbstractController
             'questions'=> $questions,
             'game' => $game,
             'form' => $form->createView(),
+            'form2' => $form2->createView(),
         ])
         ;
         //////////////////////////////////////////////////////////////////////////}

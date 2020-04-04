@@ -37,6 +37,10 @@
 </table>
 
 
+<div class="feuille-card">
+        {% for feuille in manche.feuilles %}
+    <h1>{{ feuille.user.username }}</h1>
+            {% endfor %}
 <table class="table">
     <thead>
         <tr>
@@ -50,18 +54,14 @@
             <td>{{ user.username }}</td>
         <tr>
         {% endfor %}
-
-
         {% for feuille in manche.feuilles %}
         <tr>
             <td><a href="{{ path('ma_feuille', {'id': manche.game.id, 'id2': manche.game.id, 'id3': feuille.id}) }}">{{ feuille.id }}</a></td>
         <tr>
         {% endfor %}
-
-
-
     </tbody>
 </table>
+
         {% for feuille in manche.feuilles %}
         <tr>
             <a href="{{ path('nouvelle_feuille_reponse', {'id': manche.game.id, 'id2': manche.game.id, 'id3': feuille.id}) }}">{{ feuille.user.username }} Répondre</a>
@@ -70,6 +70,12 @@
             <a href="{{ path('reponse_feuille_vote', {'id': manche.game.id, 'id2': manche.game.id, 'id3': feuille.id}) }}">Voter</a>
         <tr>
         {% endfor %}
+</div>
+
+
+
+
+
 
 
 {% endblock %}

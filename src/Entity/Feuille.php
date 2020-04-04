@@ -128,6 +128,46 @@ class Feuille
      */
     private $votes;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reponse_1_comment;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reponse_2_comment;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reponse_3_comment;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reponse_4_comment;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reponse_5_comment;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reponse_6_comment;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reponse_7_comment;
+
+    /**
+     * @ORM\Column(type="string", length=1, nullable=true)
+     */
+    private $lettre;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -439,6 +479,102 @@ class Feuille
                 $vote->setFeuille(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReponse1Comment(): ?string
+    {
+        return $this->reponse_1_comment;
+    }
+
+    public function setReponse1Comment(?string $reponse_1_comment): self
+    {
+        $this->reponse_1_comment = $reponse_1_comment;
+
+        return $this;
+    }
+
+    public function getReponse2Comment(): ?string
+    {
+        return $this->reponse_2_comment;
+    }
+
+    public function setReponse2Comment(?string $reponse_2_comment): self
+    {
+        $this->reponse_2_comment = $reponse_2_comment;
+
+        return $this;
+    }
+
+    public function getReponse3Comment(): ?string
+    {
+        return $this->reponse_3_comment;
+    }
+
+    public function setReponse3Comment(?string $reponse_3_comment): self
+    {
+        $this->reponse_3_comment = $reponse_3_comment;
+
+        return $this;
+    }
+
+    public function getReponse4Comment(): ?string
+    {
+        return $this->reponse_4_comment;
+    }
+
+    public function setReponse4Comment(?string $reponse_4_comment): self
+    {
+        $this->reponse_4_comment = $reponse_4_comment;
+
+        return $this;
+    }
+
+    public function getReponse5Comment(): ?string
+    {
+        return $this->reponse_5_comment;
+    }
+
+    public function setReponse5Comment(?string $reponse_5_comment): self
+    {
+        $this->reponse_5_comment = $reponse_5_comment;
+
+        return $this;
+    }
+
+    public function getReponse6Comment(): ?string
+    {
+        return $this->reponse_6_comment;
+    }
+
+    public function setReponse6Comment(?string $reponse_6_comment): self
+    {
+        $this->reponse_6_comment = $reponse_6_comment;
+
+        return $this;
+    }
+
+    public function getReponse7Comment(): ?string
+    {
+        return $this->reponse_7_comment;
+    }
+
+    public function setReponse7Comment(?string $reponse_7_comment): self
+    {
+        $this->reponse_7_comment = $reponse_7_comment;
+
+        return $this;
+    }
+
+    public function getLettre(): ?string
+    {
+        return $this->lettre;
+    }
+
+    public function setLettre(?string $lettre): self
+    {
+        $this->lettre = $lettre;
 
         return $this;
     }

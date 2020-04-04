@@ -21,6 +21,13 @@ class FeuilleNewType extends AbstractType
             ->add('reponse_5')
             ->add('reponse_6')
             ->add('reponse_7')
+            ->add('reponse_1_comment')
+            ->add('reponse_2_comment')
+            ->add('reponse_3_comment')
+            ->add('reponse_4_comment')
+            ->add('reponse_5_comment')
+            ->add('reponse_6_comment')
+            ->add('reponse_7_comment')
         ;
     }
 
