@@ -173,6 +173,8 @@ class Feuille
         $this->created_at = new \DateTime();
         $this->questions = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $alphabet= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+        $this->lettre = ($alphabet[array_rand($alphabet, 1)]);
     }
 
     public function getId(): ?int
