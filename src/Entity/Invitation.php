@@ -17,14 +17,9 @@ class Invitation
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="invitations")
      */
-    private $user_id_demande;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $user_id_invite;
+    private $user_demande;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -36,6 +31,11 @@ class Invitation
      */
     private $active;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="invitations")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -44,30 +44,6 @@ class Invitation
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUserIdDemande(): ?int
-    {
-        return $this->user_id_demande;
-    }
-
-    public function setUserIdDemande(?int $user_id_demande): self
-    {
-        $this->user_id_demande = $user_id_demande;
-
-        return $this;
-    }
-
-    public function getUserIdInvite(): ?int
-    {
-        return $this->user_id_invite;
-    }
-
-    public function setUserIdInvite(?int $user_id_invite): self
-    {
-        $this->user_id_invite = $user_id_invite;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -93,4 +69,29 @@ class Invitation
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUserDemande(): ?User
+    {
+        return $this->user_demande;
+    }
+
+    public function setUserDemande(?User $user_demande): self
+    {
+        $this->user_demande = $user_demande;
+
+        return $this;
+    }
+
 }

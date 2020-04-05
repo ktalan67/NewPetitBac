@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invitation index{% endblock %}
+
+{% block body %}
+    <h1>Amis index</h1>
+
+<div class="amis">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ami in amis %}
+            <tr>
+                <td>{{ ami.user.id }}</td>
+                <td>{{ ami.user.username }}</td>
+                <td>{{ invitation.createdAt ? invitation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('invitation_show', {'id': invitation.id}) }}">show</a>
+                    <a href="{{ path('invitation_edit', {'id': invitation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

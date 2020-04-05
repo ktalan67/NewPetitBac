@@ -89,6 +89,11 @@ class User implements UserInterface
      */
     private $votes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Invitation", mappedBy="user")
+     */
+    private $invitations;
+
     public function __construct()
     {
         $this->manches = new ArrayCollection();
@@ -97,6 +102,7 @@ class User implements UserInterface
         $this->feuilles = new ArrayCollection();
         $this->created_at = new \DateTime();
         $this->votes = new ArrayCollection();
+        $this->invitations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -374,4 +380,34 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Invitation[]
+     */
+    public function getInvitations(): Collection
+    {
+        return $this->invitations;
+    }
+
+    public function addInvitation(Invitation $invitation): self
+    {
+        if (!$this->invitations->contains($invitation)) {
+            $this->invitations[] = $invitation;
+            $invitation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvitation(Invitation $invitation): self
+    {
+        if ($this->invitations->contains($invitation)) {
+            $this->invitations->removeElement($invitation);
+            // set the owning side to null (unless already changed)
+            if ($invitation->getUser() === $this) {
+                $invitation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

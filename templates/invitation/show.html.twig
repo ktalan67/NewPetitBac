@@ -13,11 +13,11 @@
             </tr>
             <tr>
                 <th>User_id_demande</th>
-                <td>{{ invitation.userIdDemande }}</td>
+                <td>{{ invitation.userDemande.username }}</td>
             </tr>
             <tr>
                 <th>User_id_invite</th>
-                <td>{{ invitation.userIdInvite }}</td>
+                <td>{{ invitation.user.username }}</td>
             </tr>
             <tr>
                 <th>Created_at</th>
@@ -26,7 +26,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('invitation_index') }}">back to list</a>
+    <a href="{{ path('user_invitations', {'id': user.id}) }}">back to list</a>
 
     <a href="{{ path('invitation_edit', {'id': invitation.id}) }}">edit</a>
 

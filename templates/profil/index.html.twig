@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invitation index{% endblock %}
+
+{% block body %}
+
+{{ user.username }}
+
+    <a href="{{ path('amis_index', {'id': user.id}) }}">Mes Amis</a>
+
+{% endblock %}
