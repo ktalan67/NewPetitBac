@@ -19,30 +19,76 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProfilController extends AbstractController
 {
     /**
-     * @Route("/{id}", name="user_invitations", methods={"GET"})
+     * @Route("/{id}/profil/", name="user_profil", methods={"GET"})
      */
     public function userProfil($id, InvitationRepository $invitationRepository): Response
     {
         $user = $this->getUser();
         $id = $user->getId();
-
         return $this->render('profil/index.html.twig', [
             'user' => $user,
         ]);
     }
 
     /**
-     * @Route("/{id}/invitations", name="invitation_new", methods={"GET","POST"})
+     * @Route("/{id}/invitations", name="user_invitations", methods={"GET","POST"})
      */
-    public function userInvitations(Request $request, UserRepository $userRepository, EntityManagerInterface $em): Response
+    public function userInvitations(Request $request, InvitationRepository $invitationRepository, UserRepository $userRepository, EntityManagerInterface $em): Response
         {
             $user = $this->getUser();
             $id = $user->getId();
             return $this->render('profil/invitations.html.twig', [
                 'invitations' => $invitationRepository->findBy(array('user' => $id)),
                 'invitations_demandes' => $invitationRepository->findBy(array('user_demande' => $id)),
+                'user' => $user,
             ]);
         }
+
+    /**
+     * @Route("/{id}/invitations/new", name="invitation_new", methods={"GET","POST"})
+     */
+    public function new(Request $request, UserRepository $userRepository, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $invitation = new Invitation();
+        $form = $this->createForm(InvitationType::class, $invitation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $users = $userRepository->findAll();
+            $usernameList = [];
+            foreach ($users as $user) {
+                $userUsername = $user->getUsername();
+                $usernameList[] = $userUsername;
+            }
+            $username = $form->get('username_given')->getData();
+            if (in_array($username, $usernameList)) {
+                $user = $this->getUser();
+            //Recherche de l'user et son Id reçu du Form
+                $userSearch = $userRepository->findOneByUsername($username);
+                $invitation->setUser($userSearch);
+                $userCurrent = $this->getUser();
+                $invitation->setUserDemande($userCurrent);
+                $invitation->setActive(true);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($invitation);
+                $entityManager->flush();
+                $id = $userCurrent->getId();
+                return $this->redirectToRoute('user_invitations', [
+                    'id'=> $id,
+                ]);
+            }
+            else {
+                throw $this->createAccessDeniedException('User non trouvé.');
+            }
+        }
+        return $this->render('invitation/new.html.twig', [
+            'invitation' => $invitation,
+            'form' => $form->createView(),
+            'user'=> $user,
+        ]);
+
+    }
 
     /////////////  /**
     /////////////   * @Route("/{id}/amis", name="amis_index", methods={"GET","POST"})
@@ -58,7 +104,7 @@ class ProfilController extends AbstractController
     /////////////      }
 
     /**
-     * @Route("/show/{id}", name="invitation_show", methods={"GET"})
+     * @Route("/show/{id}", name="user_amis", methods={"GET"})
      */
     public function show(Invitation $invitation): Response
     {

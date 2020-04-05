@@ -19,6 +19,17 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
+    /**
+    *
+    */
+    public function findRandom7Questions(): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.username = '.$u.'')
+            ->getQuery()
+            ->getResults();
+    }
+
     // /**
     //  * @return Question[] Returns an array of Question objects
     //  */

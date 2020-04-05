@@ -9,5 +9,5 @@
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 
-    <a href="{{ path('invitation_index') }}">back to list</a>
+    <a href="{{ path('user_invitations', {'id' : user.id }) }}">back to list</a>
 {% endblock %}

@@ -4,8 +4,22 @@
 
 {% block body %}
 
-{{ user.username }}
+<div class="newgame-container d-flex justify-content-center">
+	<div class="newgame-card">
+		<div class="newgame-card-header d-flex justify-content-center">
+			<p>{{ user.username }}</p>
+		</div>
+		<div class="newgame-card-body">
+        {% for game in user.games %}
+		<div class="login-card-body">
+        	{{ game.id }}
+			{{ game.nom }}
+		</div>
+        {% endfor %}
+        </div>
+	</div>
+</div>
 
-    <a href="{{ path('amis_index', {'id': user.id}) }}">Mes Amis</a>
+
 
 {% endblock %}

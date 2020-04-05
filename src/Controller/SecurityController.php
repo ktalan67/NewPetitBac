@@ -8,17 +8,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
- * @Route("/main")
+ * @Route("/")
  */
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/", name="login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-             return $this->redirectToRoute('api_index');
+        if ($user = $this->getUser()) {
+            $id = $user->getId();
+            return $this->redirectToRoute('user_profil', [
+            'id' => $id,
+            ]);
             }
 
         // get the login error if there is one

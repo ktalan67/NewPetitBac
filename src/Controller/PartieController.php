@@ -58,15 +58,32 @@ class PartieController extends AbstractController
            $manche->setTemps(3);
            $manche->setCreatorId($user->getId());
            $manche->setGame($game);
-        //Ajout des questions à la manche
-            $questionsList = $questionRepository->findAll();
-            $manche->addQuestion($questionsList[0]);
-            $manche->addQuestion($questionsList[1]);
-            $manche->addQuestion($questionsList[2]);
-            $manche->addQuestion($questionsList[3]);
-            $manche->addQuestion($questionsList[4]);
-            $manche->addQuestion($questionsList[5]);
-            $manche->addQuestion($questionsList[6]);
+        //Ajout de questions aléatoires à la manche
+            $questions = $questionRepository->findAll();
+            $questionsList = [];
+            foreach ($questions as $question){
+                $questionsList[] = $question;
+            }
+            $question1 = $questionsList[0];
+            $manche->addQuestion($question1);
+            shuffle($questionsList);
+            $question2 = $questionsList[0];
+            $manche->addQuestion($question2);
+            shuffle($questionsList);
+            $question3 = $questionsList[0];
+            $manche->addQuestion($question3);
+            shuffle($questionsList);
+            $question4 = $questionsList[0];
+            $manche->addQuestion($question4);
+            shuffle($questionsList);
+            $question5 = $questionsList[0];
+            $manche->addQuestion($question5);
+            shuffle($questionsList);
+            $question6 = $questionsList[0];
+            $manche->addQuestion($question6);
+            shuffle($questionsList);
+            $question7 = $questionsList[0];
+            $manche->addQuestion($question7);
             $manche->addUser($user);
         //Ajout du créateur de la partie à partir de l'user connecté (creator_id , int   ->propriété sans relation)
             $game->setCreatorId($user->getId());
@@ -75,18 +92,16 @@ class PartieController extends AbstractController
             $manche->addUser($userGame);
             $game->addUser($userGame); 
             $feuille = new Feuille();
-            $alphabet= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
-            $feuille->setLettre($alphabet[array_rand($alphabet, 1)]);
             $feuille->setUser($userGame);
             $feuille->setManche($manche);
             $feuille->setGame($game);
-            $feuille->addQuestion($questionsList[0]); 
-            $feuille->addQuestion($questionsList[1]);
-            $feuille->addQuestion($questionsList[2]);
-            $feuille->addQuestion($questionsList[3]); 
-            $feuille->addQuestion($questionsList[4]);
-            $feuille->addQuestion($questionsList[5]);
-            $feuille->addQuestion($questionsList[6]);
+            $feuille->addQuestion($question1); 
+            $feuille->addQuestion($question2);
+            $feuille->addQuestion($question3);
+            $feuille->addQuestion($question4); 
+            $feuille->addQuestion($question5);
+            $feuille->addQuestion($question6);
+            $feuille->addQuestion($question7);
             $em->persist($feuille);
             $em->flush();
             $em->clear(Feuille::class); // methode "magique" pour les boucles, "Detaches all Feuilles objects from Doctrine!"
@@ -106,10 +121,12 @@ class PartieController extends AbstractController
                 'id'=> $id,
                 'game' => $game,
                 'manche' => $manche,
+                'user'=> $user,
             ]);
         }
         return $this->render('partie/new.html.twig', [
             'form' => $form->createView(),
+            'user'=> $user,
         ]);
     }
 

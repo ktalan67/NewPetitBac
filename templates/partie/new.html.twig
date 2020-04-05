@@ -3,9 +3,16 @@
 {% block title %}New Game{% endblock %}
 
 {% block body %}
-    <h1>Create new Game</h1>
-
-    {{ include('partie/manches/_form.html.twig') }}
-
-    <a href="{{ path('manche_index') }}">back to list</a>
+<div class="newgame-container d-flex justify-content-center">
+	<div class="newgame-card">
+		<div class="newgame-card-header d-flex justify-content-center">
+			<p>Nouvelle partie</p>
+		</div>
+		<div class="newgame-card-body">
+        	{{ form_start(form) }}
+            <button class="btn">{{ button_label|default('Créer') }}</button>
+            {{ form_end(form) }}
+        </div>
+	</div>
+</div>
 {% endblock %}

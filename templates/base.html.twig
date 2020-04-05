@@ -9,84 +9,40 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-            <link rel="stylesheet" href="{{ asset('') }}">
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {% endblock %}
     </head>
     <body>
-        {% block header %}
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <img class="logo" src="{{ asset('') }}" alt="Logo Petit Bac">
-            <a class="navbar-brand" href="{{ path('index') }}">PetitBac NavBar v1</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ path('index') }}">Home<span class="sr-only">(current)</span></a>
-              </li>
-               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{{ path('user_index') }}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  User
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="{{ path('user_index') }}">List</a>
-                      <a class="dropdown-item" href="{{ path('user_new') }}">Add</a>
-                </div>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Feuille
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="{{ path('feuille_index') }}">List</a>
-                  <a class="dropdown-item" href="{{ path('feuille_new') }}">Add</a>
-                </div>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Game
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="{{ path('game_index') }}">List</a>
-                  <a class="dropdown-item" href="{{ path('game_new') }}">Add</a>
-                </div>
-              </li>
-              </ul>
-              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-              <ul class="navbar-nav">
-              <li class="nav-item">
-                  <a class="btn btn-sm btn-outline-warning" href="{{ path('logout') }}">Logout</a>
-              </li>
-              </ul>
-              {% endif %} 
-            </div>
-            </nav>
-            {% for message in app.flashes('success') %}
-              <div class="alert alert-success">
-                  {{ message }}
-              </div>
-            {% endfor %}
+        {% block header %}  
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#"><p>Le NewPetitBac'</p></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ path('user_profil', {'id' : user.id}) }}">Profil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Parties</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('user_invitations', {'id' : user.id}) }}">Amis</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('nouvelle_partie') }}">Nouvelle partie</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{{ path('logout') }}">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>      
         {% endblock %}
-        {% block body %}{% endblock %}
+        {% block body %}
+        {% endblock %}
         {% block javascripts %}
-            <script>
-                var imgField = document.getElementsByClassName('custom-file-input')[0];
-                function message(event){
-                    var bits = event.target.value.split('\\');
-                    var fileName = bits[bits.length-1];
-                    document.getElementsByClassName("custom-file-label")[0].innerText = fileName;
-                }
-                imgField.addEventListener("change", message);
-            </script>
-
-            <script>
-              $('#objects-list a').on('click', function (e) {
-              e.preventDefault()
-              $(this).tab('show')})
-            </script>
         {% endblock %}
     </body>
 </html>

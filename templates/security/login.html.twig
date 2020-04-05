@@ -1,27 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_login.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-
 {% if error %}
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
-
-<form action="{{ path('login') }}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" />
-
-
-    {#
-        If you want to control the URL the user
-        is redirected to on success (more details below)
-        <input type="hidden" name="_target_path" value="/account" />
-    #}
-
-    <button type="submit">login</button>
-</form>
+<div class="login-container d-flex justify-content-center">
+	<div class="login-card">
+		<div class="login-card-header d-flex justify-content-center">
+			<a class="nav-link" href="{{ path('user_new') }}">S'inscrire</a>/
+			<p>Connexion</p>
+		</div>
+		<div class="login-card-body">
+        	<form class="login" method="post">
+				<div class="login-input-group form-group d-flex justify-content-center align-items-center">
+					<div class="login-input-group-prepend col-sm-8">
+					<span class="login-input-group-text"><p>Utilisateur:</p></span>
+					</div>
+					<input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" placeholder="Username" required autofocus>
+				</div>
+				<div class="login-input-group form-group d-flex justify-content-center align-items-center">
+					<div class="login-input-group-prepend col-sm-8">
+					<span class="login-input-group-text"><p>Mot de passe:</p></span>
+					</div>
+					<input type="password" id="password" name="_password" class="form-control" placeholder="Password" required>
+				</div>
+				<div class="login-form-group">
+					<input type="submit" value="Se connecter" class="btn center login_btn">
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				</div>
+			</form>
+		</div>
+		<div class="login-card-footer">
+		</div>
+	</div>
+</div>
 {% endblock %}
