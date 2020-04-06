@@ -1,7 +1,7 @@
 # Documentation de l'API
 
 | Endpoint | Méthode HTTP | Donnée(s) | Description | Fonction | Nom de la route |
-|--|--|--|--|--|
+|--|--|--|--|--|--|
 | `/main/user/new` | GET/POST | - | Nouvel utilisateur |
 | `/main/user/[id]/profil` | GET/POST | ['id']=user.id  ['id2']=partie.id  `$parties->getByUserWhereFINISH` | Page profil du joueur (Résumé infos, stats, derniers résultats) | userProfil() | user_profil |
 | `/main/user/[id]/amis` | GET/POST | ['id']=user.id  `$amis->getByUser` | Page des amis du joueur | userAmi | user_friends |
