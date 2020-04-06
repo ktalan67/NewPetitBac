@@ -4,7 +4,7 @@
 |--|--|--|--|
 | `/main/user/new` | GET/POST | - | Nouvel utilisateur |
 | `/main/user/[id]/profil` | GET/POST | ['id']=user.id  ['id2']=partie.id  `$parties->getByUserWhereFINISH` | Page profil du joueur (Résumé infos, stats, derniers résultats) |
-| `/main/user/[id]/amis` | GET/POST | ['id']=user.id  `$amis->getByUser` | Page des amis du joueur |
+| `/main/user/[id]/amis` | GET/POST | ['id']=user.id<br/>`$amis->getByUser` | Page des amis du joueur |
 | `/main/user/[id]/amis/invitations` | GET/POST | ['id']=user.id  ['id']=user.id  `$invitations->getByUser&UserDemand` | Page des invitations reçues et envoyées |
 | `/main/user/[id]/partie/` | GET | ['id']=user.id  `$games->findByUserId&NOT FINISH` | Page des parties du joueur |
 | `/main/user/[id]/partie/[id2]/partie/manche/[id3]/feuille/[id4]` | GET/POST | ['id']=user.id  ['id2']=game.id  ['id3']=manche.id  ['id4']=feuille.id | Page réponse d'un joueur à une manche  |
