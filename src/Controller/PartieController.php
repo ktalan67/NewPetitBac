@@ -54,7 +54,7 @@ class PartieController extends AbstractController
            $nomPartie = $form->get('nom_partie')->getData();
            $usersList = $game->getUsers();
            // NOMMAGE DE LA MANCHE... POUR LA RETROUVER ENSUITE ?
-           $mancheNom = 'Manche'; 
+           $mancheNom = 'Manche'.$user->getUsername; 
            $manche->setNom($mancheNom);
            $manche->setTemps(3);
            $manche->setCreatorId($user->getId());
@@ -261,7 +261,7 @@ class PartieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
            $usersList = $game->getUsers();
            // NOMMAGE DE LA MANCHE... POUR LA RETROUVER ENSUITE ?
-           $mancheNom = 'Manche-'.$user->getId().'-nouvelle manche'; 
+           $mancheNom = 'Manche-'.$user->getUsername(); 
            $manche->setNom($mancheNom);
            $manche->setTemps(3);
            $manche->setCreatorId($user->getId());
