@@ -6,36 +6,59 @@
 <h2>Lettre ""</h2>
 
 {{ form_start(form) }}
-
+<div class="login-container d-flex justify-content-center">
+	<div class="login-card">
+		<div class="login-card-header d-flex justify-content-center">
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
 <h5>{{ manche.questions[0].Title }}</h5>
 {{ form_row(form.reponse_1) }}
 {{ form_row(form.reponse_1_comment) }}
-
+    </div>
+    <div class="carousel-item">
 <h5>{{ manche.questions[1].Title }}</h5>
 {{ form_row(form.reponse_2) }}
 {{ form_row(form.reponse_2_comment) }}
-
+    </div>
+    <div class="carousel-item">
 <h5>{{ manche.questions[2].Title }}</h5>
 {{ form_row(form.reponse_3) }}
 {{ form_row(form.reponse_3_comment) }}
-
+    </div>
+        <div class="carousel-item">
 <h5>{{ manche.questions[3].Title }}</h5>
 {{ form_row(form.reponse_4) }}
 {{ form_row(form.reponse_4_comment) }}
-
+    </div>
+        <div class="carousel-item">
 <h5>{{ manche.questions[4].Title }}</h5>
 {{ form_row(form.reponse_5) }}
 {{ form_row(form.reponse_5_comment) }}
-
+    </div>
+        <div class="carousel-item">
 <h5>{{ manche.questions[5].Title }}</h5>
 {{ form_row(form.reponse_6) }}
 {{ form_row(form.reponse_6_comment) }}
-
+    </div>
+        <div class="carousel-item">
 <h5>{{ manche.questions[6].Title }}</h5>
 {{ form_row(form.reponse_7) }}
 {{ form_row(form.reponse_7_comment) }}
-
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
 <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-
+</div>
+</div>
+</div>
 {% endblock %}

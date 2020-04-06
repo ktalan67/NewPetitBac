@@ -198,12 +198,14 @@ class PartieController extends AbstractController
                 'id'=> $id,
                 'game' => $game,
                 'manche' => $manche,
+                'user'=> $user,
             ]);
         }
         return $this->render('partie/manches/reponses_form.html.twig', [
             'form' => $form->createView(),
             'question'=> $question,
             'manche' => $manche,
+            'user'=> $user,
         ]);
 }
 
@@ -264,15 +266,32 @@ class PartieController extends AbstractController
            $manche->setTemps(3);
            $manche->setCreatorId($user->getId());
            $manche->setGame($game);
-        //Ajout des questions à la manche
-            $questionsList = $questionRepository->findAll();
-            $manche->addQuestion($questionsList[0]);
-            $manche->addQuestion($questionsList[1]);
-            $manche->addQuestion($questionsList[2]);
-            $manche->addQuestion($questionsList[3]);
-            $manche->addQuestion($questionsList[4]);
-            $manche->addQuestion($questionsList[5]);
-            $manche->addQuestion($questionsList[6]);
+                //Ajout de questions aléatoires à la manche
+                $questions = $questionRepository->findAll();
+                $questionsList = [];
+                foreach ($questions as $question){
+                    $questionsList[] = $question;
+                }
+                $question1 = $questionsList[0];
+                $manche->addQuestion($question1);
+                shuffle($questionsList);
+                $question2 = $questionsList[0];
+                $manche->addQuestion($question2);
+                shuffle($questionsList);
+                $question3 = $questionsList[0];
+                $manche->addQuestion($question3);
+                shuffle($questionsList);
+                $question4 = $questionsList[0];
+                $manche->addQuestion($question4);
+                shuffle($questionsList);
+                $question5 = $questionsList[0];
+                $manche->addQuestion($question5);
+                shuffle($questionsList);
+                $question6 = $questionsList[0];
+                $manche->addQuestion($question6);
+                shuffle($questionsList);
+                $question7 = $questionsList[0];
+                $manche->addQuestion($question7);
             $manche->addUser($user);  
         //Ajout des Users à la manche (à partir des données du game) et création des feuilles pour chaquer
             foreach ($usersList as $userGame){
@@ -296,11 +315,13 @@ class PartieController extends AbstractController
                 'id'=> $id,
                 'game' => $game,
                 'manche' => $manche,
+                'user'=> $user,
             ]);
         }
 
         return $this->render('partie/manches/new.html.twig', [
             'form' => $form->createView(),
+            'user'=> $user,
         ]);
     }
 
@@ -558,6 +579,7 @@ class PartieController extends AbstractController
             'id'=> $id,
             'game' => $game,
             'manche' => $manche,
+            'user'=> $user,
     
         ]);
         }
