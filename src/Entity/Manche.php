@@ -73,6 +73,12 @@ class Manche
      */
     private $feuilles;
 
+    /**
+     * @ORM\Column(type="string", length=1, nullable=true)
+     */
+    private $lettre;
+
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -81,6 +87,8 @@ class Manche
         $this->theme = new ArrayCollection();
         $this->created_at = new \DateTime();
         $this->feuilles = new ArrayCollection();
+        $alphabet= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+        $this->lettre = ($alphabet[array_rand($alphabet, 1)]);
     }
 
     public function getId(): ?int
@@ -305,6 +313,18 @@ class Manche
                 $feuille->setManche(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLettre(): ?string
+    {
+        return $this->lettre;
+    }
+
+    public function setLettre(?string $lettre): self
+    {
+        $this->lettre = $lettre;
 
         return $this;
     }

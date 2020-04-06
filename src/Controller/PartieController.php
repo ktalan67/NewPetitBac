@@ -45,15 +45,16 @@ class PartieController extends AbstractController
     public function newGame(Request $request, QuestionRepository $questionRepository, EntityManagerInterface $em): Response
     {
         $game = new Game();
-        $manche = new Manche();
         $user = $this->getUser();
         $form = $this->createForm(GameNewType::class, $game);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           $manche = new Manche();
+           $nomPartie = $form->get('nom_partie')->getData();
            $usersList = $game->getUsers();
            // NOMMAGE DE LA MANCHE... POUR LA RETROUVER ENSUITE ?
-           $mancheNom = 'Manche-'.$user->getId().'-PremiereManche'; 
+           $mancheNom = 'Manche'; 
            $manche->setNom($mancheNom);
            $manche->setTemps(3);
            $manche->setCreatorId($user->getId());
@@ -109,8 +110,7 @@ class PartieController extends AbstractController
         //ajout de la manche au game
             $game->addManche($manche);
         // NOMMAGE DU GAME... POUR LE RETROUVER ENSUITE ?
-            $gameNom = 'Game-'.$user->getId().'-"Nom de la partie"'; 
-            $game->setNom($gameNom);
+            $game->setNom($nomPartie);
             $game->setCreatorId($user->getId());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($manche);
