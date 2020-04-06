@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Feuille index{% endblock %}
+
+{% block body %}
+    <h1>Parties jouées/en cours</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for game in user.games %}
+            <tr>
+                <td>{{ game.id }}</td>
+                <td>
+                    <a href="{{ path('game_show', {'id': game.id}) }}">show</a>
+                    <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

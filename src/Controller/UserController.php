@@ -18,7 +18,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UserController extends AbstractController
 {
-
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
@@ -61,6 +60,17 @@ class UserController extends AbstractController
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/games", name="user_games", methods={"GET"})
+     */
+    public function userGamesIndex(Request $request, User $user): Response
+    {
+        $user = $this->getUser();
+        return $this->render('game/user_index.html.twig', [
+            'user' => $user,
         ]);
     }
 }

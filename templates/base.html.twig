@@ -25,7 +25,7 @@
         <a class="nav-link" href="{{ path('user_profil', {'id' : user.id}) }}">Profil</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Parties</a>
+        <a class="nav-link" href="{{ path('user_games', {'id' : user.id}) }}">Parties</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ path('user_invitations', {'id' : user.id}) }}">Amis</a>
