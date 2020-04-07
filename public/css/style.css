@@ -3,7 +3,7 @@
     src: url("newpetitbac.ttf");
 }
 body {
-    background: url("../asset/images/tableau.jpg") no-repeat;
+    background: url("../asset/images/tableau.jpg");
     background-size: cover;
     font-family: "NewPetitBac";
 }
