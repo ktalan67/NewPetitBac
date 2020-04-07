@@ -5,7 +5,6 @@
 body {
     background: url("../asset/images/tableau.jpg") no-repeat;
     background-size: cover;
-    background-repeat: no-repeat;
     font-family: "NewPetitBac";
 }
 
@@ -73,9 +72,23 @@ input[type="submit"]:hover
 }
 
 
-.newgame-container {
-    color: white;
+@media (min-width: 1025px) and (max-width: 2000px) {
+    .newgame-container {
+    color: #f0f;
 }
+}
+@media (min-width: 401px) and (max-width: 768px) {
+    .newgame-container {
+        color: white;
+    }
+    }
+
+@media (min-width: 769px) and (max-width: 1024px) {
+.newgame-container {
+        color: red;
+    }
+}
+
 .newgame-card-header {
     font-size: 3em;
 }
