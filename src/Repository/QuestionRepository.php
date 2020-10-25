@@ -20,14 +20,34 @@ class QuestionRepository extends ServiceEntityRepository
     }
 
     /**
-    *
-    */
-    public function findRandom7Questions(): ?User
+     * @param $theme
+     * @param $number
+     * @return int|mixed|string
+     */
+    public function findRandomQuestionsByTheme($theme, $number)
     {
-        return $this->createQueryBuilder('u')
-            ->orderBy('u.username = '.$u.'')
+        //Ajout composer require beberlei/doctrineextensions + modif doctrine.yaml -> utiliser fonction RAND()
+        return $this->createQueryBuilder('q')
+            ->where('q.theme = :theme')
+            ->setParameter('theme', $theme)
+            ->setMaxResults($number)
+            ->orderBy('RAND()')
             ->getQuery()
-            ->getResults();
+            ->getResult();
+
+
+        //Méthode "hack"
+//        $order = array_rand(array(
+//            'DESC' => 'DESC',
+//            'ASC' => 'ASC',
+//            'DESC' => 'DESC'
+//        ));
+//
+//        $column = array_rand(array(
+//            'q.title' => 'q.title',
+//            'q.id' => 'q.id',
+//            'q.created_at' => 'q.created_at',
+//        ));
     }
 
     // /**

@@ -54,7 +54,7 @@ class Feuille
     private $reponse_7;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="feuille")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="feuilles")
      */
     private $user;
 

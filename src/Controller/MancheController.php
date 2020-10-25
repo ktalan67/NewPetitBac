@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Manche;
 use App\Form\MancheType;
+use App\Repository\FeuilleRepository;
 use App\Repository\MancheRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,4 +92,18 @@ class MancheController extends AbstractController
 
         return $this->redirectToRoute('manche_index');
     }
+
+//    /**
+//     * @Route("/{id}", name="manche_vote", methods={"DELETE"})
+//     */
+//    public function vote(Request $request, Manche $manche, FeuilleRepository $feuilleRepository): Response
+//    {
+//        $feuilles = $feuilleRepository->findBy(['manche' => $manche]);
+//        return $this->render('manche/vote.html.twig', [
+//            'manche' => $manche,
+//            'user'=> $user,
+//            'question'=> $question,
+//            'game' => $game,
+//        ]);
+//    }
 }

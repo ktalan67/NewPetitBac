@@ -10,13 +10,13 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">{{ question[0].Title }}</th>
-      <th scope="col">{{ question[1].Title }}</th>
-      <th scope="col">{{ question[2].Title }}</th>
-      <th scope="col">{{ question[3].Title }}</th>
-      <th scope="col">{{ question[4].Title }}</th>
-      <th scope="col">{{ question[5].Title }}</th>
-      <th scope="col">{{ question[6].Title }}</th>
+      <th scope="col">{{ manche.questions[0].title }}</th>
+      <th scope="col">{{ manche.questions[1].Title }}</th>
+      <th scope="col">{{ manche.questions[2].Title }}</th>
+      <th scope="col">{{ manche.questions[3].Title }}</th>
+      <th scope="col">{{ manche.questions[4].Title }}</th>
+      <th scope="col">{{ manche.questions[5].Title }}</th>
+      <th scope="col">{{ manche.questions[6].Title }}</th>
     </tr>
   </thead>
   <tbody>
@@ -34,7 +34,5 @@
 </table>
 <button class="btn">{{ button_label|default('Save') }}</button>
 {% endfor %}
-
-
 
 {% endblock %}

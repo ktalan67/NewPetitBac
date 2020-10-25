@@ -19,7 +19,50 @@
         </div>
 	</div>
 </div>
+	<div class="invitations-sended">
+		<table class="table">
+			<h1>Infos</h1>
+			<thead>
+			<tr>
+				<th>Expérience</th>
+				<th>Meilleur score</th>
+				<th>Parties jouées</th>
+				<th>Parties gagnées</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{ user.experience }}</td>
+					<td>{{ user.meilleurScore }}</td>
+					<td>{{ user.totalGamesPlayed }}</td>
+					<td>{{ user.totalGamesWon }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
-
+	<div class="invitations-sended">
+		<table class="table">
+			<h1>Amis</h1>
+			<thead>
+			<tr>
+				<th>Id</th>
+				<th>Amis</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for friend in friends %}
+				<tr>
+					<td>{{ friend.id }}</td>
+					<td>{{ friend.username }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
 {% endblock %}

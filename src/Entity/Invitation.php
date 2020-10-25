@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,28 +18,31 @@ class Invitation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="invitations")
-     */
-    private $user_demande;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created_at;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $active;
+    private $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="invitations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="invitations_sended")
      */
-    private $user;
+    private $user_sender;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="invitations_recieved")
+     */
+    private $user_reciever;
 
     public function __construct()
     {
         $this->created_at = new \DateTime();
+        $this->user_reciever = new ArrayCollection();
+        $this->user_sender = new ArrayCollection();
+        $this->setState(1); //1 active (invitation active), 2 les joueurs sont amis (invitation acceptée), 3 ne sont plus amis (suppresion de l'ami).
     }
 
     public function getId(): ?int
@@ -58,38 +62,74 @@ class Invitation
         return $this;
     }
 
-    public function getActive(): ?bool
+    public function getState(): ?int
     {
-        return $this->active;
+        return $this->state;
     }
 
-    public function setActive(?bool $active): self
+    public function setState(?int $state): self
     {
-        $this->active = $active;
+        $this->state = $state;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUserSender(): ?User
     {
-        return $this->user;
+        return $this->user_sender;
     }
 
-    public function setUser(?User $user): self
+    public function setUserSender(?User $userSender): self
     {
-        $this->user = $user;
+        $this->user_sender = $userSender;
 
         return $this;
     }
 
-    public function getUserDemande(): ?User
+    public function addUserSender(User $userSender): self
     {
-        return $this->user_demande;
+        if (!$this->user_sender->contains($userSender)) {
+            $this->user_sender[] = $userSender;
+        }
+
+        return $this;
     }
 
-    public function setUserDemande(?User $user_demande): self
+    public function removeUserSender(User $userSender): self
     {
-        $this->user_demande = $user_demande;
+        if ($this->user_sender->contains($userSender)) {
+            $this->user_sender->removeElement($userSender);
+        }
+
+        return $this;
+    }
+
+    public function getUserReciever(): ?User
+    {
+        return $this->user_reciever;
+    }
+
+    public function setUserReciever(?User $userReciever): self
+    {
+        $this->user_reciever = $userReciever;
+
+        return $this;
+    }
+
+    public function addUserReciever(User $userReciever): self
+    {
+        if (!$this->user_reciever->contains($userReciever)) {
+            $this->user_reciever[] = $userReciever;
+        }
+
+        return $this;
+    }
+
+    public function removeUserReciever(User $userReciever): self
+    {
+        if ($this->user_reciever->contains($userReciever)) {
+            $this->user_reciever->removeElement($userReciever);
+        }
 
         return $this;
     }

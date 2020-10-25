@@ -78,6 +78,11 @@ class Manche
      */
     private $lettre;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $state;
+
 
     public function __construct()
     {
@@ -89,6 +94,7 @@ class Manche
         $this->feuilles = new ArrayCollection();
         $alphabet= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
         $this->lettre = ($alphabet[array_rand($alphabet, 1)]);
+        $this->setState(1); //1 active (à la création), 2 en cours (joueurs doivent répondre), 3 terminée (tous les joueurs ont répondu).
     }
 
     public function getId(): ?int
@@ -325,6 +331,18 @@ class Manche
     public function setLettre(?string $lettre): self
     {
         $this->lettre = $lettre;
+
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

@@ -18,7 +18,6 @@ class MancheRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Manche::class);
     }
-
     // /**
     //  * @return Manche[] Returns an array of Manche objects
     //  */

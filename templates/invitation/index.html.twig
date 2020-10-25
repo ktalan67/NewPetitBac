@@ -20,11 +20,11 @@
         {% for invitation in invitations %}
             <tr>
                 <td>{{ invitation.id }}</td>
-                <td>{{ invitation.UserDemande.username }}</td>
+                <td>{{ invitation.UserReciever.username }}</td>
                 <td>{{ invitation.createdAt ? invitation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('invitation_show', {'id': invitation.id}) }}">show</a>
-                    <a href="{{ path('invitation_edit', {'id': invitation.id}) }}">edit</a>
+{#                    <a href="{{ path('invitation_show', {'id': invitation.id}) }}">show</a>#}
+{#                    <a href="{{ path('invitation_edit', {'id': invitation.id}) }}">edit</a>#}
                 </td>
             </tr>
         {% else %}
@@ -48,11 +48,11 @@
             </tr>
         </thead>
         <tbody>
-{% for invitation in invitations_demandes %}
+{% for invitation in invitations_sender %}
             <tr>
-                <td>{{ invitation.id }}</td>
-                <td>{{ invitation.user.username }}</td>
-                <td>{{ invitation.createdAt ? invitation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ invitationSender.id }}</td>
+                <td>{{ invitationSender.user.username }}</td>
+                <td>{{ invitationSender.createdAt ? invitation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('invitation_show', {'id': invitation.id}) }}">show</a>
                     <a href="{{ path('invitation_edit', {'id': invitation.id}) }}">edit</a>

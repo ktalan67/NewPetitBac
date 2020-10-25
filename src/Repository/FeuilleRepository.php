@@ -19,6 +19,23 @@ class FeuilleRepository extends ServiceEntityRepository
         parent::__construct($registry, Feuille::class);
     }
 
+    public function findReponses1($manche)
+    {
+        return $this->createQueryBuilder('reponse_1')
+            ->where('reponse_1.manche = :manche')
+            ->setParameter('manche', $manche)
+            ->getQuery()
+            ->execute();
+    }
+    public function findReponses2($manche)
+    {
+        return $this->createQueryBuilder('reponse_2')
+            ->where('reponse_1.manche = :manche')
+            ->setParameter('manche', $manche)
+            ->getQuery()
+            ->execute();
+    }
+
     // /**
     //  * @return Feuille[] Returns an array of Feuille objects
     //  */

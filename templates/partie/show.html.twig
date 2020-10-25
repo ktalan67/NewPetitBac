@@ -12,6 +12,7 @@
                 <th>Id</th>
                 <th>Nom Manche</th>
                 <th>Lettre Manche</th>
+                <th>Vote</th>
             </tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
                 <td>{{ manche.id }}</td>
                 <td><a href="{{ path('manche_show', {'id': game.id, 'id2': manche.id}) }}">{{ manche.nom }} </a> </td>
                  <td>{{ manche.lettre }}</td>
+{#                <td><a href="{{ path('manche_vote', {'id': game.id, 'id2': manche.id}) }}">{{ manche.nom }} </a></td>#}
             </tr>
                 {% endfor %}
         </tbody>
@@ -40,7 +42,7 @@
                 <td>{{ user.username }}</td>
                 <td> {% for feuille in user.feuilles %}
                 {% if feuille.game.id == game.id  %}
-                {{ feuille.id }}
+                Feuille ID {{ feuille.id }} SCORE : {{ feuille.score }}
                 <a href="{{ path('ma_feuille', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}"> SHOW</a>
                 <a href="{{ path('nouvelle_feuille_reponse', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}">REPONDRE</a>
                 <a href="{{ path('reponse_feuille_vote', {'id': game.id, 'id2': feuille.manche.id, 'id3': feuille.id}) }}">VOTE</a>

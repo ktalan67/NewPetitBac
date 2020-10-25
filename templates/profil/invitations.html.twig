@@ -5,26 +5,54 @@
 {% block body %}
     <h1>Invitation index</h1>
 
-<div class="invitations-recues">
+    <div class="invitations-sended">
+        <table class="table">
+            <h1>Amis</h1>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ami</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for friend in friends %}
+                <tr>
+                    <td>{{ friend.id }}</td>
+                    <td>{{ friend.username }}</td>
+                    <td><a href="{{ path('friend_delete', {'id': friend.id, '_token': csrf_token('delete' ~ friend.id)}) }}">supprimer</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+<div class="invitations-sended">
     <table class="table">
-        <h1>Invitation Reçues</h1>
+        <h1>Invitation Envoyées</h1>
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Qui demande ?</th>
+                <th>Qui reçoit ?</th>
                 <th>Created_at</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for invitation in invitations %}
+        {% for invitationSend in invitations_sended %}
             <tr>
-                <td>{{ invitation.id }}</td>
-                <td>{{ invitation.UserDemande.username }}</td>
-                <td>{{ invitation.createdAt ? invitation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ invitationSend.id }}</td>
+                <td>{{ invitationSend.UserSender.username }}</td>
+                <td>{{ invitationSend.UserReciever.username }}</td>
+                <td>{{ invitationSend.createdAt ? invitationSend.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('invitation_show', {'id': invitation.id}) }}">show</a>
-                    <a href="{{ path('invitation_edit', {'id': invitation.id}) }}">edit</a>
+                    <a href="{{ path('invitation_delete', {'id': invitationSend.id, '_token': csrf_token('delete' ~ invitationSend.id)}) }}">annuler</a>
+{#                    <a href="{{ path('invitation_edit', {'id': invitationSend.id}) }}">edit</a>#}
                 </td>
             </tr>
         {% else %}
@@ -36,27 +64,32 @@
     </table>
 </div>
 
-<div class="invitations-envoyees">
+<div class="invitations-recieved">
     <table class="table">
-        <h1>Invitation Envoyées</h1>
+        <h1>Invitation Reçues</h1>
         <thead>
             <tr>
                 <th>Id</th>
-                <th>User Invité</th>
+                <th>Qui a demandé ?</th>
+                <th>Qui a reçu ?</th>
                 <th>Created_at</th>
+                <th>State</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-{% for invitation in invitations_demandes %}
+        {% for invitationRecieve in invitations_recieved%}
             <tr>
-                <td>{{ invitation.id }}</td>
-                <td>{{ invitation.user.username }}</td>
-                <td>{{ invitation.createdAt ? invitation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ invitationRecieve.id }}</td>
+                <td>{{ invitationRecieve.UserSender.username }}</td>
+                <td>{{ invitationRecieve.UserReciever.username }}</td>
+                <td>{{ invitationRecieve.createdAt ? invitationRecieve.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ invitationRecieve.state }}</td>
                 <td>
-                    <a href="{{ path('invitation_show', {'id': invitation.id}) }}">show</a>
-                    <a href="{{ path('invitation_edit', {'id': invitation.id}) }}">edit</a>
-                    <a href="{{ path('invitation_delete', {'id': invitation.id}) }}">delete</a>        
+                                        <a href="{{ path('invitation_accept', {'id': invitationRecieve.id}) }}">accepter</a>
+                    <a href="{{ path('invitation_delete', {'id': invitationRecieve.id, '_token': csrf_token('delete' ~ invitationRecieve.id)}) }}">refuser</a>
+                    {#                    <a href="{{ path('invitation_show', {'id': invitationSend.id}) }}">show</a>#}
+                    {#                    <a href="{{ path('invitation_edit', {'id': invitationSend.id}) }}">edit</a>#}
                 </td>
             </tr>
         {% else %}

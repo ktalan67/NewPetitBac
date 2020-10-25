@@ -30,6 +30,19 @@ class UserRepository extends ServiceEntityRepository
             ->getResults();
     }
 
+    /**
+     *
+     */
+    public function findFriends($user): ?User
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.friends = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     /*
     public function findOneBySomeField($value): ?User
     {

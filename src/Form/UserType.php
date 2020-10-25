@@ -16,23 +16,6 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('experience')
-            ->add('meilleur_score')
-            ->add('avatar')
-            ->add('manches', EntityType::class, [
-                'class' => Manche::class,
-                'choice_label' => 'nom',
-                'expanded' => true,
-                'multiple' => true,
-            ]
-            )
-            ->add('games', EntityType::class, [
-                'class' => Game::class,
-                'choice_label' => 'id',
-                'expanded' => true,
-                'multiple' => true,
-            ]
-            )
         ;
     }
 

@@ -34,11 +34,6 @@ class Question
     private $manches;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Theme", inversedBy="questions")
-     */
-    private $theme;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created_at;
@@ -53,10 +48,14 @@ class Question
      */
     private $feuilles;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Theme::class, inversedBy="questions")
+     */
+    private $theme;
+
     public function __construct()
     {
         $this->manches = new ArrayCollection();
-        $this->theme = new ArrayCollection();
         $this->created_at = new \DateTime();
         $this->feuilles = new ArrayCollection();
     }
@@ -118,32 +117,6 @@ class Question
         return $this;
     }
 
-    /**
-     * @return Collection|Theme[]
-     */
-    public function getTheme(): Collection
-    {
-        return $this->theme;
-    }
-
-    public function addTheme(Theme $theme): self
-    {
-        if (!$this->theme->contains($theme)) {
-            $this->theme[] = $theme;
-        }
-
-        return $this;
-    }
-
-    public function removeTheme(Theme $theme): self
-    {
-        if ($this->theme->contains($theme)) {
-            $this->theme->removeElement($theme);
-        }
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
@@ -192,6 +165,18 @@ class Question
             $this->feuilles->removeElement($feuille);
             $feuille->removeQuestion($this);
         }
+
+        return $this;
+    }
+
+    public function getTheme(): ?Theme
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(?Theme $theme): self
+    {
+        $this->theme = $theme;
 
         return $this;
     }

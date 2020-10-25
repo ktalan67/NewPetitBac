@@ -24,16 +24,6 @@ class Theme
     private $nom;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="theme")
-     */
-    private $questions;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Manche", mappedBy="theme")
-     */
-    private $manches;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created_at;
@@ -43,11 +33,16 @@ class Theme
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="theme")
+     */
+    private $questions;
+
     public function __construct()
     {
-        $this->questions = new ArrayCollection();
         $this->manches = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,62 +58,6 @@ class Theme
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Question[]
-     */
-    public function getQuestions(): Collection
-    {
-        return $this->questions;
-    }
-
-    public function addQuestion(Question $question): self
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->addTheme($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestion(Question $question): self
-    {
-        if ($this->questions->contains($question)) {
-            $this->questions->removeElement($question);
-            $question->removeTheme($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Manche[]
-     */
-    public function getManches(): Collection
-    {
-        return $this->manches;
-    }
-
-    public function addManch(Manche $manch): self
-    {
-        if (!$this->manches->contains($manch)) {
-            $this->manches[] = $manch;
-            $manch->addTheme($this);
-        }
-
-        return $this;
-    }
-
-    public function removeManch(Manche $manch): self
-    {
-        if ($this->manches->contains($manch)) {
-            $this->manches->removeElement($manch);
-            $manch->removeTheme($this);
-        }
 
         return $this;
     }
@@ -143,6 +82,36 @@ class Theme
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setTheme($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getTheme() === $this) {
+                $question->setTheme(null);
+            }
+        }
 
         return $this;
     }

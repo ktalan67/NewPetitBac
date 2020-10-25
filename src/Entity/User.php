@@ -33,9 +33,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Assert\Length(
-     *      max = 64
-     * )
      */
     private $password;
 
@@ -90,10 +87,30 @@ class User implements UserInterface
     private $votes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Invitation", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Invitation", mappedBy="user_sender")
      */
-    private $invitations;
+    private $invitations_sended;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Invitation", mappedBy="user_reciever")
+     */
+    private $invitations_recieved;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="user")
+     */
+    private $friends;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $total_games_won;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $total_games_played;
+    
     public function __construct()
     {
         $this->manches = new ArrayCollection();
@@ -102,7 +119,8 @@ class User implements UserInterface
         $this->feuilles = new ArrayCollection();
         $this->created_at = new \DateTime();
         $this->votes = new ArrayCollection();
-        $this->invitations = new ArrayCollection();
+        $this->invitations_sended = new ArrayCollection();
+        $this->invitations_recieved = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,7 +238,7 @@ class User implements UserInterface
     public function addManche(Manche $manche): self
     {
         if (!$this->manches->contains($manche)) {
-            $this->manches[] = $manch;
+            $this->manches[] = $manche;
             $manche->addUser($this);
         }
 
@@ -383,30 +401,110 @@ class User implements UserInterface
     /**
      * @return Collection|Invitation[]
      */
-    public function getInvitations(): Collection
+    public function getInvitationsSended(): Collection
     {
-        return $this->invitations;
+        return $this->invitations_sended;
     }
 
-    public function addInvitation(Invitation $invitation): self
+    public function addInvitationsSended(Invitation $invitationsSended): self
     {
-        if (!$this->invitations->contains($invitation)) {
-            $this->invitations[] = $invitation;
-            $invitation->setUser($this);
+        if (!$this->invitations_sended->contains($invitationsSended)) {
+            $this->invitations_sended[] = $invitationsSended;
+            $invitationsSended->addUserSender($this);
         }
 
         return $this;
     }
 
-    public function removeInvitation(Invitation $invitation): self
+    public function removeInvitationsSended(Invitation $invitationsSended): self
     {
-        if ($this->invitations->contains($invitation)) {
-            $this->invitations->removeElement($invitation);
-            // set the owning side to null (unless already changed)
-            if ($invitation->getUser() === $this) {
-                $invitation->setUser(null);
-            }
+        if ($this->invitations_sended->contains($invitationsSended)) {
+            $this->invitations_sended->removeElement($invitationsSended);
+            $invitationsSended->removeUserSender($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Invitation[]
+     */
+    public function getInvitationsRecieved(): Collection
+    {
+        return $this->invitations_recieved;
+    }
+
+    public function addInvitationsRecieved(Invitation $invitationsRecieved): self
+    {
+        if (!$this->invitations_recieved->contains($invitationsRecieved)) {
+            $this->invitations_recieved[] = $invitationsRecieved;
+            $invitationsRecieved->addUserReciever($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvitationsRecieved(Invitation $invitationsRecieved): self
+    {
+        if ($this->invitations_recieved->contains($invitationsRecieved)) {
+            $this->invitations_recieved->removeElement($invitationsRecieved);
+            $invitationsRecieved->removeUserReciever($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Friend[]
+     */
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(User $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends[] = $friend;
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(User $friend): self
+    {
+        if ($this->friends->contains($friend)) {
+            $this->friends->removeElement($friend);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return strval($this->friends);
+    }
+
+    public function getTotalGamesWon(): ?int
+    {
+        return $this->total_games_won;
+    }
+
+    public function setTotalGamesWon(?int $total_games_won): self
+    {
+        $this->total_games_won = $total_games_won;
+
+        return $this;
+    }
+
+    public function getTotalGamesPlayed(): ?int
+    {
+        return $this->total_games_played;
+    }
+
+    public function setTotalGamesPlayed(?int $total_games_played): self
+    {
+        $this->total_games_played = $total_games_played;
 
         return $this;
     }

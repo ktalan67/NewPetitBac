@@ -1,4 +1,7 @@
 {
+    "beberlei/doctrineextensions": {
+        "version": "v1.2.8"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -90,8 +93,8 @@
     "doctrine/reflection": {
         "version": "1.2.0"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
+    "doctrine/sql-formatter": {
+        "version": "1.1.1"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"
@@ -288,11 +291,17 @@
     "symfony/polyfill-intl-idn": {
         "version": "v1.14.0"
     },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.19.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.14.0"
     },
     "symfony/polyfill-php73": {
         "version": "v1.14.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.19.0"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"

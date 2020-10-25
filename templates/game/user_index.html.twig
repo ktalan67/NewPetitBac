@@ -8,14 +8,14 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Id/Name</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for game in user.games %}
             <tr>
-                <td>{{ game.id }}</td>
+                <td>{{ game.id }}/{{ game.nom }}</td>
                 <td>
                     <a href="{{ path('game_show', {'id': game.id}) }}">show</a>
                     <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>

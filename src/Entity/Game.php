@@ -54,12 +54,18 @@ class Game
      */
     private $manches;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $state;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->created_at = new \DateTime();
         $this->feuilles = new ArrayCollection();
         $this->manches = new ArrayCollection();
+        $this->setState(1); ////1 active (à la création), 2 en cours (manches en cours), 3 terminée (fin de partie).
     }
 
     public function getId(): ?int
@@ -199,6 +205,18 @@ class Game
                 $manche->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }
